@@ -4,89 +4,265 @@
 <meta charset="UTF-8">
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1d4ed8">
+<meta name="theme-color" content="#1f3fa6">
 <title>Malaka oshirish testlari</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap">
 <style>
-:root{--bg:#eef1f7;--card:#ffffff;--ink:#171a21;--mut:#5f6879;--line:#e3e7ef;--pri:#4f46e5;--pri2:#ecebfd;--ok:#059669;--okbg:#e5f6ef;--bad:#dc2626;--badbg:#fde8e8;--warn:#b45309;--warnbg:#fdf0dd;--r:18px;--sh:0 1px 2px rgba(16,24,40,.04),0 6px 20px rgba(16,24,40,.06);--grad:linear-gradient(135deg,#4f46e5,#7c3aed)}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#0b0e15;--card:#151a25;--ink:#e8ecf4;--mut:#98a3b8;--line:#252f43;--pri:#8b8cf8;--pri2:#1f2340;--ok:#34d399;--okbg:#0f2e23;--bad:#f87171;--badbg:#3a1a1c;--warn:#fbbf24;--warnbg:#3a2c10;--sh:0 1px 2px rgba(0,0,0,.35),0 8px 24px rgba(0,0,0,.4);--grad:linear-gradient(135deg,#6366f1,#8b5cf6)}}
-:root[data-theme=dark]{color-scheme:dark;--bg:#0b0e15;--card:#151a25;--ink:#e8ecf4;--mut:#98a3b8;--line:#252f43;--pri:#8b8cf8;--pri2:#1f2340;--ok:#34d399;--okbg:#0f2e23;--bad:#f87171;--badbg:#3a1a1c;--warn:#fbbf24;--warnbg:#3a2c10;--sh:0 1px 2px rgba(0,0,0,.35),0 8px 24px rgba(0,0,0,.4);--grad:linear-gradient(135deg,#6366f1,#8b5cf6)}
-.thm{border:1px solid var(--line);background:var(--card);color:var(--ink);width:40px;height:40px;border-radius:10px;font-size:19px;cursor:pointer;flex:none}
+/* Layout: one left-aligned column; a lapis "hero" band, then lists of rows (not card grids). Lapis = action, turquoise = progress. */
+:root{
+  --bg:#f2f5f8;--surface:#ffffff;--sunk:#e8edf2;--ink:#0f1d2e;--mut:#56657a;--line:#d9e1e9;
+  --pri:#1f3fa6;--pri-ink:#ffffff;--pri-soft:#e5eafa;--acc:#0a8a85;--acc-soft:#dff3f1;
+  --ok:#11795a;--ok-soft:#e0f3ea;--bad:#be342d;--bad-soft:#fbe8e6;--warn:#9a5a08;--warn-soft:#faefd9;
+  --hero1:#1f3fa6;--hero2:#14296f;--hero-ink:#ffffff;--hero-mut:#c3cff3;
+  --shadow:0 1px 0 rgba(15,29,46,.04),0 8px 24px -12px rgba(15,29,46,.18);
+  --f-ui:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-disp:"Unbounded","Golos Text",system-ui,sans-serif;
+  --r-lg:22px;--r-md:16px;--r-sm:12px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;
+  --bg:#0c131c;--surface:#141e2a;--sunk:#1a2634;--ink:#e5ecf4;--mut:#95a5b8;--line:#243448;
+  --pri:#86a2ff;--pri-ink:#0c131c;--pri-soft:#1b2a4c;--acc:#40c9c0;--acc-soft:#123331;
+  --ok:#4fca97;--ok-soft:#11302a;--bad:#f2807a;--bad-soft:#3a1d1d;--warn:#f0b54f;--warn-soft:#3a2b12;
+  --hero1:#1d3480;--hero2:#101f4d;--hero-ink:#ffffff;--hero-mut:#aebde9;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.6)}}
+:root[data-theme=dark]{color-scheme:dark;
+  --bg:#0c131c;--surface:#141e2a;--sunk:#1a2634;--ink:#e5ecf4;--mut:#95a5b8;--line:#243448;
+  --pri:#86a2ff;--pri-ink:#0c131c;--pri-soft:#1b2a4c;--acc:#40c9c0;--acc-soft:#123331;
+  --ok:#4fca97;--ok-soft:#11302a;--bad:#f2807a;--bad-soft:#3a1d1d;--warn:#f0b54f;--warn-soft:#3a2b12;
+  --hero1:#1d3480;--hero2:#101f4d;--hero-ink:#ffffff;--hero-mut:#aebde9;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.6)}
+
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:var(--mw,100%);margin:0 auto;padding-block:16px 90px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
-header.top .wrap{padding-block:10px;display:flex;align-items:center;gap:10px}
-.back{border:0;background:var(--card);color:var(--ink);width:40px;height:40px;border-radius:10px;font-size:20px;cursor:pointer;border:1px solid var(--line)}
-.ttl{font-weight:700;font-size:17px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.timer{font-variant-numeric:tabular-nums;font-weight:700;padding:6px 12px;border-radius:10px;background:var(--pri2);color:var(--pri)}
-.timer.low{background:var(--badbg);color:var(--bad)}
-h1{font-size:24px;margin:8px 0 4px}h2{font-size:19px;margin:22px 0 10px}
-.mut{color:var(--mut);font-size:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin:12px 0;box-shadow:var(--sh)}
-.big{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
-@media(max-width:520px){.big{grid-template-columns:1fr}}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;cursor:pointer;text-align:left;color:var(--ink);font:inherit;box-shadow:var(--sh);transition:transform .15s,border-color .15s,box-shadow .15s}
-.tile:hover{border-color:var(--pri);transform:translateY(-2px)}.tile:active{transform:scale(.99)}
-.tile .ic{font-size:30px}.tile b{display:block;font-size:19px;margin:6px 0 2px}
-.rec{background:var(--grad);color:#fff;border:0}
-.rec .mut{color:#dbe4ff}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:11px 16px;border-radius:12px;font:inherit;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s,transform .1s}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-ui);-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.hidden{display:none!important}
+.wrap{max-width:var(--mw,100%);margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+main.wrap{padding-block:20px 120px}
+@media(min-width:900px){main.wrap{padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:max(40px,env(safe-area-inset-right,0px))}}
+
+/* header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:10px;padding-block:10px}
+@media(min-width:900px){header.top .wrap{padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:max(40px,env(safe-area-inset-right,0px))}}
+.brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(140deg,var(--hero1),var(--hero2));display:grid;place-items:center;flex:none;color:#fff;font:600 13px var(--f-disp)}
+.ttl{font:600 16px/1.2 var(--f-ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ib{width:42px;height:42px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;flex:none}
+.ib:hover{border-color:var(--pri)}
+.ib.txt{font:700 14px var(--f-ui)}
+.timer{display:flex;align-items:center;gap:6px;font:600 15px var(--f-disp);font-variant-numeric:tabular-nums;padding:9px 13px;border-radius:999px;background:var(--pri-soft);color:var(--pri)}
+.timer.low{background:var(--bad-soft);color:var(--bad)}
+
+/* type */
+h1{font:600 clamp(26px,4.4vw,40px)/1.12 var(--f-disp);letter-spacing:-.02em;margin:0;text-wrap:balance}
+h2{font:600 19px/1.3 var(--f-ui);margin:32px 0 12px;letter-spacing:-.01em}
+.mut{color:var(--mut)}.sm{font-size:14px}
+p{margin:0}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 18px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--surface);font-weight:600;cursor:pointer;transition:border-color .15s,background .15s,transform .08s;text-decoration:none}
+.btn:hover{border-color:var(--pri)}
 .btn:active{transform:scale(.98)}
-.btn.p{background:var(--grad);border-color:transparent;color:#fff}
-.btn.w{background:#fff;color:#4f46e5;border:0}
-.btn:focus-visible,.opt:focus-visible,.tile:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
-.btn:disabled{opacity:.45;cursor:default}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.mod{display:flex;gap:12px;align-items:center}
-.mod .n{width:38px;height:38px;flex:none;border-radius:10px;background:var(--pri2);color:var(--pri);display:grid;place-items:center;font-weight:700}
-.mod .x{flex:1;min-width:0}.mod .x b{display:block;font-size:15px;line-height:1.3}
-.modes{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.modes .btn{flex:1;min-width:92px;flex-direction:column;gap:0;padding:8px}
-.modes small{font-weight:400;color:var(--mut);font-size:12px}
-.bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--ok)}
-.q{font-size:18px;font-weight:600;margin:4px 0 14px}
-.opt{display:flex;gap:12px;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:13px 15px;margin:9px 0;font:inherit;cursor:pointer;align-items:flex-start;transition:border-color .15s,background .15s}
-.opt:not(:disabled):hover{border-color:var(--pri)}
-.opt .l{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:700}
-.opt.sel{border-color:var(--pri);background:var(--pri2)}.opt.sel .l{background:var(--pri);color:#fff;border-color:var(--pri)}
-.opt.ok{border-color:var(--ok);background:var(--okbg)}.opt.ok .l{background:var(--ok);color:#fff;border-color:var(--ok)}
-.opt.no{border-color:var(--bad);background:var(--badbg)}.opt.no .l{background:var(--bad);color:#fff;border-color:var(--bad)}
+.btn.p{background:var(--pri);border-color:var(--pri);color:var(--pri-ink)}
+.btn.p:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--bad)}
+.btn:disabled{opacity:.4;cursor:default;transform:none}
+:focus-visible{outline:2.5px solid var(--pri);outline-offset:2px}
+
+/* hero */
+.hero{position:relative;isolation:isolate;overflow:hidden;border-radius:var(--r-lg);background:linear-gradient(150deg,var(--hero1),var(--hero2));color:var(--hero-ink);padding:28px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.hero::after{content:"";position:absolute;left:-70px;bottom:-90px;width:280px;height:280px;opacity:.10;background:
+  conic-gradient(from 45deg,#fff 0 25%,transparent 0 50%,#fff 0 75%,transparent 0) 0 0/52px 52px;
+  -webkit-mask:radial-gradient(circle,#000 30%,transparent 70%);mask:radial-gradient(circle,#000 30%,transparent 70%);pointer-events:none;z-index:-1}
+.hero .lead{color:var(--hero-mut);margin-top:10px;max-width:46ch}
+.ring{position:relative;width:132px;height:132px;flex:none}
+.ring svg{width:100%;height:100%}
+.ring .rt{fill:none;stroke:rgba(255,255,255,.16);stroke-width:10}
+.ring .rv{fill:none;stroke:#5fe0d6;stroke-width:10;stroke-linecap:round;transition:stroke-dasharray .6s}
+.ring-tx{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring-tx b{font:600 26px/1 var(--f-disp);font-variant-numeric:tabular-nums}
+.ring-tx span{font-size:12px;color:var(--hero-mut);margin-top:4px}
+@media(max-width:560px){.hero{grid-template-columns:1fr;padding:22px}.ring{width:112px;height:112px}}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow)}
+.stats>div{padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.stats>div+div{border-left:1px solid var(--line)}
+.stats b{font:600 22px/1.1 var(--f-disp);font-variant-numeric:tabular-nums}
+.stats span{font-size:13px;color:var(--mut)}
+
+/* big actions */
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:700px){.acts{grid-template-columns:1fr}}
+.act{display:flex;align-items:center;gap:16px;text-align:left;padding:20px;border-radius:var(--r-md);border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);cursor:pointer;transition:border-color .15s,transform .15s}
+.act:hover{border-color:var(--pri);transform:translateY(-1px)}
+.act-ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;flex:none}
+.act-ic svg.i{width:26px;height:26px}
+.act-learn .act-ic{background:var(--acc-soft);color:var(--acc)}
+.act-test .act-ic{background:var(--pri-soft);color:var(--pri)}
+.act-tx{flex:1;min-width:0}.act-tx b{display:block;font:600 18px/1.25 var(--f-ui)}
+.act-tx span{display:block;font-size:14px;color:var(--mut);margin-top:4px}
+.act>svg.i:last-child{color:var(--mut)}
+
+.quick{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.quick .btn{flex:1;min-width:220px;justify-content:flex-start}
+.quick .btn .cnt{margin-left:auto;font:600 13px var(--f-disp);padding:3px 9px;border-radius:999px;background:var(--sunk)}
+
+/* list rows */
+.list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow);overflow:hidden}
+.row-i{display:flex;align-items:center;gap:14px;padding:16px 18px;width:100%;text-align:left;background:none;border:0}
+.list>.row-i+.row-i,.list>.mrow+.mrow{border-top:1px solid var(--line)}
+button.row-i{cursor:pointer}button.row-i:hover{background:var(--sunk)}
+.row-i .tx{flex:1;min-width:0}.row-i .tx b{display:block;font-weight:600}
+.row-i .tx span{font-size:13.5px;color:var(--mut)}
+.score-pill{font:600 14px var(--f-disp);font-variant-numeric:tabular-nums;padding:6px 11px;border-radius:999px;flex:none}
+.sp-ok{background:var(--ok-soft);color:var(--ok)}.sp-mid{background:var(--warn-soft);color:var(--warn)}.sp-bad{background:var(--bad-soft);color:var(--bad)}
+
+.mrow{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;padding:18px}
+.mnum{width:40px;height:40px;border-radius:12px;background:var(--pri-soft);color:var(--pri);display:grid;place-items:center;font:600 15px var(--f-disp);grid-row:span 2}
+.mtx{min-width:0}.mtx b{display:block;font-weight:600;line-height:1.35}.mtx span{font-size:13.5px;color:var(--mut)}
+.mact{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+.mact .btn{min-height:44px;padding:8px 14px;flex-direction:column;gap:0;line-height:1.2}
+.mact .btn small{font-weight:400;font-size:12px;color:var(--mut)}
+.mact .btn.p small{color:inherit;opacity:.8}
+.cnum{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);overflow:hidden;flex:1;min-width:230px}
+.cnum:focus-within{border-color:var(--pri)}
+.cnum input{width:84px;border:0;background:transparent;padding:0 12px;font:600 16px var(--f-disp);font-variant-numeric:tabular-nums;outline:none;-moz-appearance:textfield}
+.cnum input::-webkit-outer-spin-button,.cnum input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.cnum .hint{flex:1;display:flex;align-items:center;font-size:13px;color:var(--mut);padding-right:8px;white-space:nowrap}
+.cnum .btn{border:0;border-left:1px solid var(--line);border-radius:0;min-height:44px}
+.cnum.err{border-color:var(--bad)}.cnum.err .hint{color:var(--bad)}
+@media(max-width:899px){.mact{grid-column:1/-1}.mact>.btn{flex:1}}
+@media(min-width:900px){.mrow{grid-template-columns:auto 1fr auto;align-items:center}.mnum{grid-row:auto}.mact{flex-wrap:nowrap}.cnum{flex:none}}
+
+.bar{height:6px;background:var(--sunk);border-radius:6px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--acc);border-radius:6px}
+
+/* feature (general test) */
+.feature{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:22px;border-radius:var(--r-md);background:linear-gradient(150deg,var(--hero1),var(--hero2));color:var(--hero-ink)}
+.feature b{display:block;font:600 21px/1.25 var(--f-disp)}
+.feature p{color:var(--hero-mut);margin-top:6px;font-size:15px}
+.feature .btn{background:#fff;color:#1f3fa6;border-color:#fff}
+@media(max-width:560px){.feature{grid-template-columns:1fr}}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.14);color:var(--hero-ink);margin-bottom:10px}
+
+/* exam */
+.qhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.qn{font:600 14px var(--f-ui);color:var(--mut)}.qn b{font:600 22px var(--f-disp);color:var(--ink)}
+.prog{height:4px;background:var(--sunk);border-radius:4px;margin:10px 0 18px;overflow:hidden}.prog i{display:block;height:100%;background:var(--pri);transition:width .25s}
+.modtag{display:inline-block;font-size:13px;font-weight:600;color:var(--acc);background:var(--acc-soft);padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow)}
+.q{font:600 clamp(18px,2.1vw,22px)/1.45 var(--f-ui);margin:0 0 18px;letter-spacing:-.005em}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:14px;align-items:flex-start;width:100%;text-align:left;padding:14px 16px;border-radius:var(--r-md);border:1.5px solid var(--line);background:var(--surface);cursor:pointer;transition:border-color .12s,background .12s;line-height:1.45}
+.opt:not(:disabled):hover{border-color:var(--pri);background:var(--pri-soft)}
+.opt .l{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none;font:600 13px var(--f-disp);background:var(--sunk);color:var(--mut);margin-top:-2px}
+.opt .ot{flex:1;min-width:0;padding-top:1px}
+.opt.sel{border-color:var(--pri);background:var(--pri-soft)}.opt.sel .l{background:var(--pri);color:var(--pri-ink)}
+.opt.ok{border-color:var(--ok);background:var(--ok-soft)}.opt.ok .l{background:var(--ok);color:#fff}
+.opt.no{border-color:var(--bad);background:var(--bad-soft)}.opt.no .l{background:var(--bad);color:#fff}
 .opt:disabled{cursor:default}
-.fb{border-radius:12px;padding:12px 14px;margin-top:10px;font-size:15px}
-.fb.ok{background:var(--okbg);color:var(--ok)}.fb.no{background:var(--badbg);color:var(--bad)}
-.tip{background:var(--warnbg);border-radius:12px;padding:12px 14px;margin-top:8px;font-size:14.5px}
+details.map{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:4px 18px}
+details.map summary{cursor:pointer;font-weight:600;padding:12px 0;list-style:none;display:flex;align-items:center;gap:8px}
+details.map summary::-webkit-details-marker{display:none}
+details.map[open] summary svg{transform:rotate(90deg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px;padding-bottom:14px}
+.grid button{height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font:600 13px var(--f-ui);font-variant-numeric:tabular-nums;cursor:pointer}
+.grid .a{background:var(--pri-soft);border-color:var(--pri);color:var(--pri)}
+.grid .cur{outline:2px solid var(--pri);outline-offset:1px}
+.grid .g{background:var(--ok-soft);border-color:transparent;color:var(--ok)}.grid .r{background:var(--bad-soft);border-color:transparent;color:var(--bad)}
+
+/* footer action bar */
+.foot{position:fixed;left:0;right:0;bottom:0;z-index:15;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-block:12px calc(12px + env(safe-area-inset-bottom,0px));padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.foot .in{max-width:var(--mw,100%);margin:0 auto;display:flex;gap:10px}.foot .btn{flex:1}
+
+/* result */
+.result{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;padding:24px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+.result .ring .rt{stroke:var(--sunk)}.result .ring .rv{stroke:var(--gc)}
+.result .ring-tx b{color:var(--gc)}.result .ring-tx span{color:var(--mut)}
+.result .gname{font:600 22px/1.2 var(--f-disp);color:var(--gc)}
+.result .meta{color:var(--mut);margin-top:6px;font-size:14px}
+.result .nums{display:flex;gap:18px;margin-top:14px;flex-wrap:wrap}
+.result .nums div{display:flex;flex-direction:column}.result .nums b{font:600 20px var(--f-disp);font-variant-numeric:tabular-nums}.result .nums span{font-size:13px;color:var(--mut)}
+@media(max-width:520px){.result{grid-template-columns:1fr;text-align:left}}
+.seg{display:inline-flex;padding:4px;border-radius:var(--r-sm);background:var(--sunk);gap:4px;margin:4px 0 12px}
+.seg button{border:0;background:transparent;padding:8px 14px;border-radius:9px;font-weight:600;font-size:14px;cursor:pointer;color:var(--mut)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.rv-i{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:18px;margin-top:10px}
+.rv-i .q{font-size:17px;margin:8px 0 10px}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px}
+.st svg.i{width:15px;height:15px}
+.st.ok{background:var(--ok-soft);color:var(--ok)}.st.no{background:var(--bad-soft);color:var(--bad)}.st.nt{background:var(--sunk);color:var(--mut)}
+.ans{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:var(--r-sm);margin-top:6px;font-size:15px}
+.ans svg.i{margin-top:2px;width:18px;height:18px}
+.ans.ok{background:var(--ok-soft);color:var(--ok)}.ans.no{background:var(--bad-soft);color:var(--bad)}
+.tip{background:var(--warn-soft);border-radius:var(--r-sm);padding:12px 14px;margin-top:8px;font-size:14.5px}
 .tip b{color:var(--warn)}.tip ul{margin:6px 0 0;padding-left:18px}.tip li{margin:3px 0}
-mark{background:#fde68a;color:#000;border-radius:3px;padding:0 2px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}
-.grid button{height:36px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:13px;cursor:pointer}
-.grid .a{background:var(--pri2);border-color:var(--pri);color:var(--pri);font-weight:700}
-.grid .cur{outline:2px solid var(--pri)}
-.grid .g{background:var(--okbg);border-color:var(--ok);color:var(--ok)}.grid .r{background:var(--badbg);border-color:var(--bad);color:var(--bad)}
-.foot{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding-block:10px calc(10px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.foot .in{max-width:var(--mw,100%);margin:0 auto;display:flex;gap:8px}.foot .btn{flex:1}
-.score{font-size:46px;font-weight:800;line-height:1}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.tabs .btn{padding:7px 12px;font-size:14px}.tabs .on{background:var(--pri);color:#fff;border-color:var(--pri)}
-input[type=search]{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit}
-.chip{display:inline-block;font-size:12px;padding:2px 8px;border-radius:20px;background:var(--pri2);color:var(--pri);font-weight:600}
-.chip.ok{background:var(--okbg);color:var(--ok)}
-.hidden{display:none}
-.zp{position:fixed;z-index:40;top:calc(64px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.18);width:290px;max-width:calc(100vw - 32px)}
-.zp h4{margin:0 0 8px;font-size:13px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.zp .row{flex-wrap:nowrap}.zp .row .btn{flex:1;padding:8px}.zp .val{min-width:58px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
-.zp .seg{display:flex;gap:6px;margin-bottom:14px}.zp .seg .btn{flex:1;padding:8px 4px;font-size:14px}.zp .seg .on{background:var(--pri);color:#fff;border-color:var(--pri)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stats div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}.stats b{display:block;font-size:20px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
-.modal .box{background:var(--card);border-radius:16px;padding:20px;max-width:380px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.3)}
-.modal .box p{margin:0 0 16px;font-size:16px}.modal .row .btn{flex:1}
-h1,h2,.ttl,.score,.tile b,.q{font-family:"Manrope","Inter",system-ui,sans-serif}
-h1{letter-spacing:-.02em}h2{letter-spacing:-.01em}
-header.top{backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);background:color-mix(in srgb,var(--bg) 85%,transparent)}
-.histc{transition:border-color .15s}.histc:hover{border-color:var(--pri)}
+mark{background:#fde68a;color:#1a1a1a;border-radius:3px;padding:0 2px}
+
+/* learn */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0}
+.search{flex:1;min-width:220px;display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--surface);border-radius:var(--r-sm);padding:0 14px;min-height:46px}
+.search:focus-within{border-color:var(--pri)}
+.search input{flex:1;border:0;background:transparent;outline:none;min-width:0;font-size:15px}
+.search svg.i{color:var(--mut)}
+.check{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--mut);cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--pri)}
+.lc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;margin-top:12px}
+.lc-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.qno{font:600 13px var(--f-disp);color:var(--mut)}
+.done-badge{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--acc)}
+.done-badge svg.i{width:16px;height:16px}
+.lc .q{font-size:18px;margin:10px 0 14px}
+.verdict{display:flex;align-items:center;gap:10px;margin-top:12px;padding:12px 14px;border-radius:var(--r-sm);font-weight:600}
+.verdict svg.i{width:22px;height:22px}
+.verdict.ok{background:var(--ok-soft);color:var(--ok)}.verdict.no{background:var(--bad-soft);color:var(--bad)}
+.verdict .vt{font-weight:500}
+.lc-act{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.lc-act .btn{flex:1;min-width:150px}
+.btn.learned{background:var(--acc-soft);border-color:transparent;color:var(--acc)}
+
+/* flashcards */
+.fc{min-height:300px;display:flex;flex-direction:column;justify-content:center;gap:14px;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow);margin-top:14px}
+.fc .q{font-size:clamp(19px,2.4vw,24px);margin:0}
+.fc .hintline{color:var(--mut);font-size:14px;display:flex;align-items:center;gap:8px}
+.fc .answer{border-top:1px dashed var(--line);padding-top:16px;display:flex;gap:10px;align-items:flex-start;color:var(--ok);font-size:18px;font-weight:600}
+.fc .answer svg.i{width:24px;height:24px;margin-top:1px}
+.empty{text-align:center;padding:40px 20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg)}
+.empty .big{font:600 44px var(--f-disp);color:var(--acc)}
+
+/* guide */
+details.guide{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:4px 20px}
+details.guide summary{cursor:pointer;font-weight:600;padding:14px 0;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.guide summary::-webkit-details-marker{display:none}
+details.guide[open] summary svg{transform:rotate(90deg)}
+details.guide ol{margin:0 0 16px;padding-left:22px;color:var(--mut)}details.guide li{margin:6px 0}details.guide li b{color:var(--ink)}
+
+/* modal + zoom panel */
+.modal{position:fixed;inset:0;background:rgba(8,14,24,.55);display:flex;align-items:center;justify-content:center;z-index:60;padding:20px}
+.modal .box{background:var(--surface);border-radius:var(--r-lg);padding:24px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.modal .box p{margin:0 0 20px;font-size:17px;line-height:1.5}
+.modal .acts2{display:flex;gap:10px}.modal .acts2 .btn{flex:1}
+.zp{position:fixed;z-index:50;top:calc(66px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px;box-shadow:0 16px 40px rgba(0,0,0,.2);width:300px;max-width:calc(100vw - 32px)}
+.zp .lbl{font-size:13px;color:var(--mut);font-weight:600;margin-bottom:8px}
+.zp .zr{display:flex;align-items:center;gap:8px;margin-bottom:16px}.zp .zr .btn{flex:1;min-height:42px;padding:6px}
+.zp .val{min-width:64px;text-align:center;font:600 16px var(--f-disp);font-variant-numeric:tabular-nums}
+.zp .seg{display:flex;width:100%;margin:0 0 16px}.zp .seg button{flex:1}
+.zp .reset{width:100%}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><button class="back hidden" id="back" aria-label="Orqaga">←</button><div class="ttl" id="ttl">Malaka oshirish testlari</div><div class="timer hidden" id="timer"></div><button class="thm" id="zoomb" aria-label="Masshtab" title="Masshtab va kenglik" style="font-size:15px;font-weight:700">Aa</button><button class="thm" id="thm" aria-label="Tun/kun rejimi" title="Tun/kun rejimi"></button></div></header>
+<header class="top"><div class="wrap">
+  <button class="ib hidden" id="back" aria-label="Orqaga"></button>
+  <div class="brand"><div class="logo" id="logo">MO</div><div class="ttl" id="ttl">Malaka oshirish testlari</div></div>
+  <div class="timer hidden" id="timer"></div>
+  <button class="ib txt" id="zoomb" aria-label="Masshtab" title="Shrift o'lchami va kenglik">Aa</button>
+  <button class="ib" id="thm" aria-label="Tun/kun rejimi" title="Tun/kun rejimi"></button>
+</div></header>
 <main class="wrap" id="app"></main>
 <div class="foot hidden" id="foot"><div class="in" id="footin"></div></div>
 <script>
@@ -95,8 +271,9 @@ const LS='mo_tests_v1';
 let st={wrong:{},learned:{},hist:[],cnt:{}};
 try{st=Object.assign(st,JSON.parse(localStorage.getItem(LS)||'{}'))}catch(e){}
 if(!st.v2){for(const o of [st.wrong,st.learned])for(const k in o)if(k.startsWith('7_'))delete o[k];st.v2=1;}
-st.cnt=st.cnt||{};
-st.pos=st.pos||{};
+st.cnt=st.cnt||{};st.pos=st.pos||{};st.hist=st.hist||[];
+const key=(m,i)=>m+'_'+i;
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 function optOrder(m,i){const q=DATA[m].q[i],k=key(m,i),n=q.o.length,last=st.pos[k];let ord,p,t=0;
   do{ord=shuf(q.o.map((_,j)=>j));p=ord.indexOf(q.c);t++}while(n>1&&p===last&&t<20);
   st.pos[k]=p;return ord}
@@ -105,142 +282,177 @@ function miss(k){st.cnt[k]=(st.cnt[k]||0)+1;st.wrong[k]=1}
 function save(){try{localStorage.setItem(LS,JSON.stringify(st))}catch(e){}}
 const $=s=>document.querySelector(s), app=$('#app');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function dlg(msg,okText,cancelText){return new Promise(res=>{const d=document.createElement('div');d.className='modal';
- d.innerHTML=`<div class="box"><p>${esc(msg)}</p><div class="row">${cancelText?`<button class="btn" data-v="0">${esc(cancelText)}</button>`:''}<button class="btn p" data-v="1">${esc(okText||'OK')}</button></div></div>`;
- d.onclick=e=>{const v=e.target.dataset&&e.target.dataset.v;if(v===undefined)return;d.remove();res(v==='1')};document.body.appendChild(d);})}
-const L='ABCD';
-const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
-const key=(m,i)=>m+'_'+i;
-let timerInt=null, stack=[];
+const L='ABCDE';
+const total=DATA.reduce((s,m)=>s+m.q.length,0);
 
-function setHead(title,back){$('#ttl').textContent=title;$('#back').classList.toggle('hidden',!back);$('#back').onclick=back||null;}
+/* icons */
+const P={back:'<path d="M15 18l-6-6 6-6"/>',chev:'<path d="M9 6l6 6-6 6"/>',
+ book:'<path d="M3 5.5C3 4.7 3.7 4 4.5 4H10a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H3z"/><path d="M21 5.5c0-.8-.7-1.5-1.5-1.5H14a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h7z"/>',
+ test:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 11l2 2 4-4M9 17h6"/>',
+ cards:'<rect x="3" y="7" width="13" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-3"/>',
+ list:'<path d="M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01"/>',
+ flame:'<path d="M12 3c.5 3.5 5 5.5 5 10.5a5 5 0 0 1-10 0c0-2.6 1.6-3.8 2.2-6 1 .8 1.8 2 2 3.3C12.6 8.6 12.4 5.4 12 3z"/>',
+ repeat:'<path d="M17 2l3 3-3 3"/><path d="M4 11V9a4 4 0 0 1 4-4h12"/><path d="M7 22l-3-3 3-3"/><path d="M20 13v2a4 4 0 0 1-4 4H4"/>',
+ home:'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+ moon:'<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ check:'<path d="M5 12.5l4.5 4.5L19 7"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',
+ search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+ target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+ undo:'<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>',play:'<path d="M7 4v16l13-8z"/>'};
+const ic=(n,c='')=>`<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
+
+function dlg(msg,okText,cancelText){return new Promise(res=>{const d=document.createElement('div');d.className='modal';
+ d.innerHTML=`<div class="box" role="dialog"><p>${esc(msg)}</p><div class="acts2">${cancelText?`<button class="btn" data-v="0">${esc(cancelText)}</button>`:''}<button class="btn p" data-v="1">${esc(okText||'OK')}</button></div></div>`;
+ d.onclick=e=>{const b=e.target.closest('[data-v]');if(!b)return;d.remove();res(b.dataset.v==='1')};document.body.appendChild(d);d.querySelector('.btn.p').focus()})}
+
+let timerInt=null;
+function setHead(title,back){$('#ttl').textContent=title;const b=$('#back');b.classList.toggle('hidden',!back);$('#logo').classList.toggle('hidden',!!back);b.onclick=back||null}
 function stopTimer(){clearInterval(timerInt);timerInt=null;$('#timer').classList.add('hidden')}
-function foot(html){const f=$('#foot');if(!html){f.classList.add('hidden');document.body.style.paddingBottom='';return}$('#footin').innerHTML=html;f.classList.remove('hidden')}
+function foot(html){const f=$('#foot');if(!html){f.classList.add('hidden');return}$('#footin').innerHTML=html;f.classList.remove('hidden')}
 function top0(){window.scrollTo(0,0)}
+function ring(p){return`<svg viewBox="0 0 120 120"><circle class="rt" cx="60" cy="60" r="50"/><circle class="rv" cx="60" cy="60" r="50" pathLength="100" stroke-dasharray="${Math.max(0.01,p)} 100" transform="rotate(-90 60 60)"/></svg>`}
+function grade(p){return p>=86?["A'lo natija",'var(--ok)']:p>=71?['Yaxshi natija','var(--pri)']:p>=56?['Qoniqarli','var(--warn)']:['Yana tayyorlaning','var(--bad)']}
+function spc(p){return p>=71?'sp-ok':p>=56?'sp-mid':'sp-bad'}
 
 /* ---------- HOME ---------- */
 function home(){
   stopTimer();foot();setHead('Malaka oshirish testlari');
-  const total=DATA.reduce((s,m)=>s+m.q.length,0);
-  const learned=Object.keys(st.learned).length, wrong=Object.keys(st.wrong).length;
-  const last=st.hist.slice(-1)[0];
-  app.innerHTML=`<h1>Assalomu alaykum! 👋</h1><div class="mut">${DATA.length} ta modul · ${total} ta savol</div>
-  <div class="big">
-   <button class="tile" onclick="learnMenu()"><div class="ic">📖</div><b>Test yodlash</b><span class="mut">Har bir fan bo'yicha barcha savollar, belgilashingiz bilan to'g'ri yoki xato ekani ko'rinadi</span></button>
-   <button class="tile" onclick="testMenu()"><div class="ic">📝</div><b>Test ishlash</b><span class="mut">Umumiy 80 talik imtihon yoki har bir modul alohida, vaqt bilan</span></button>
+  const learned=Object.keys(st.learned).length, wrong=Object.keys(st.wrong).length, pct=Math.round(learned/total*100);
+  const last=st.hist.slice(-1)[0], hard=hardList().length;
+  app.innerHTML=`
+  <section class="hero">
+    <div><h1>Malaka oshirish testlari</h1><p class="lead">${DATA.length} ta modul bo'yicha ${total} ta savol. Avval yodlang, keyin vaqt bilan o'zingizni sinab ko'ring.</p></div>
+    <div class="ring">${ring(pct)}<div class="ring-tx"><b>${pct}%</b><span>yodlangan</span></div></div>
+  </section>
+  <div class="stats"><div><b>${learned}</b><span>yodlangan savol</span></div><div><b>${wrong}</b><span>xato qilingan</span></div><div><b>${last?last.p+'%':'—'}</b><span>oxirgi test</span></div></div>
+  <div class="acts">
+    <button class="act act-learn" onclick="learnMenu()"><span class="act-ic">${ic('book')}</span><span class="act-tx"><b>Test yodlash</b><span>Har bir fanning barcha savollari. Belgilashingiz bilan to'g'ri yoki xato ekani ko'rinadi.</span></span>${ic('chev')}</button>
+    <button class="act act-test" onclick="testMenu()"><span class="act-ic">${ic('test')}</span><span class="act-tx"><b>Test ishlash</b><span>80 savollik umumiy test yoki har bir modul alohida, vaqt bilan.</span></span>${ic('chev')}</button>
   </div>
-  <h2>Natijalaringiz</h2>
-  <div class="stats"><div><b>${learned}</b><span class="mut">yodlangan</span></div><div><b>${wrong}</b><span class="mut">xato qilingan</span></div><div><b>${last?last.p+'%':'—'}</b><span class="mut">oxirgi test</span></div></div>
-  ${hardList().length?`<button class="btn" style="width:100%;margin-top:10px" onclick="hardTest()">🔥 Qiyin savollar testi (${Math.min(30,hardList().length)} ta)</button>`:''}
-  ${wrong?`<button class="btn" style="width:100%;margin-top:10px" onclick="wrongTest()">🔁 Xatolarim ustida ishlash (${wrong} ta savol)</button>`:''}
-  ${st.hist.length?`<h2>Oxirgi testlar</h2><div class="mut" style="margin-top:-4px">Ichiga kirib qaysi savollar to'g'ri, qaysilari xato bo'lganini ko'ring</div>`+st.hist.map((h,idx)=>({h,idx})).slice(-5).reverse().map(({h,idx})=>`<button class="card row histc" style="width:100%;justify-content:space-between;text-align:left;cursor:pointer;color:var(--ink);font:inherit" onclick="reviewHist(${idx})"><span style="min-width:0">${esc(h.n)}<br><span class="mut">${h.d}</span></span><span style="display:flex;align-items:center;gap:10px;flex:none"><b>${h.s}/${h.t} · ${h.p}%</b><span style="font-size:20px;color:var(--mut)">›</span></span></button>`).join(''):''}
-  <h2>Qanday tayyorlanish kerak?</h2>
-  <div class="card mut" style="font-size:15px">1) Avval <b>Test yodlash</b>da har bir fanni bir marta to'liq o'ting.<br>2) Keyin har fandan <b>10 talik</b> testlarni ishlang.<br>3) Xato qilganlaringizni <b>Xatolarim</b> orqali takrorlang.<br>4) Oxirida <b>Umumiy test (80 ta, 80 daqiqa)</b> bilan o'zingizni sinang — 86%+ chiqsa tayyorsiz.</div>`;
+  ${hard||wrong?`<div class="quick">${hard?`<button class="btn" onclick="hardTest()">${ic('flame')} Qiyin savollar testi <span class="cnt">${Math.min(30,hard)}</span></button>`:''}${wrong?`<button class="btn" onclick="wrongTest()">${ic('repeat')} Xatolarim ustida ishlash <span class="cnt">${wrong}</span></button>`:''}</div>`:''}
+  ${st.hist.length?`<h2>Oxirgi testlar</h2><div class="list">`+st.hist.map((h,idx)=>({h,idx})).slice(-5).reverse().map(({h,idx})=>`<button class="row-i" onclick="reviewHist(${idx})"><span class="tx"><b>${esc(h.n)}</b><span>${esc(h.d)} · ${h.s} / ${h.t} to'g'ri</span></span><span class="score-pill ${spc(h.p)}">${h.p}%</span>${ic('chev')}</button>`).join('')+`</div>`:''}
+  <details class="guide"><summary>Qanday tayyorlanish kerak ${ic('chev')}</summary><ol>
+    <li><b>Test yodlash</b> bo'limida har bir fanni bir marta to'liq o'ting.</li>
+    <li>Har bir fandan <b>10 talik</b> testlarni ishlang.</li>
+    <li>Xato qilganlaringizni <b>Xatolarim ustida ishlash</b> orqali takrorlang.</li>
+    <li>Oxirida <b>umumiy test</b> (80 savol, 80 daqiqa) bilan o'zingizni sinang. 86% dan yuqori chiqsa, tayyorsiz.</li></ol></details>`;
   top0();
 }
 
 /* ---------- TEST MENU ---------- */
 function testMenu(){
-  stopTimer();foot();setHead('Test ishlash',home);
-  app.innerHTML=`<div class="card rec"><div class="mut">⭐ Tavsiya etiladi</div><b style="font-size:20px;display:block;margin:4px 0">Umumiy test — 80 savol</b>
-   <div class="mut">Har bir moduldan 10 tadan · 80 daqiqa · haqiqiy imtihon kabi</div>
-   <button class="btn w" style="margin-top:12px" onclick="startGeneral()">Boshlash →</button></div>
-  ${hardList().length?`<div class="card row" style="justify-content:space-between"><span><b>🔥 Qiyin savollar</b><br><span class="mut">Eng ko'p xato qilgan ${Math.min(30,hardList().length)} ta savolingiz</span></span><button class="btn p" onclick="hardTest()">Boshlash</button></div>`:''}
-  <h2>Modullar bo'yicha</h2><div class="mut">Har bir savolga 1 daqiqa vaqt beriladi</div>`+
-  DATA.map((m,i)=>`<div class="card"><div class="mod"><div class="n">${i+1}</div><div class="x"><b>${esc(m.t)}</b><span class="mut">${m.q.length} ta savol</span></div></div>
-   <div class="modes"><button class="btn" onclick="startModule(${i},0)">Barcha test<small>${m.q.length} savol · ${m.q.length} daq</small></button>
-   <button class="btn" onclick="startModule(${i},50)">50 ta test<small>50 daqiqa</small></button>
-   <button class="btn" onclick="startModule(${i},10)">10 ta test<small>10 daqiqa</small></button></div></div>`).join('');
+  stopTimer();foot();setHead('Test ishlash',home);const hard=hardList().length;
+  app.innerHTML=`
+  <div class="feature"><div><span class="tag">${ic('target')} Tavsiya etiladi</span><b>Umumiy test</b><p>80 savol: har bir moduldan 10 tadan. Vaqt 80 daqiqa, xuddi haqiqiy imtihondagidek.</p></div>
+    <button class="btn" onclick="startGeneral()">${ic('play')} Boshlash</button></div>
+  ${hard?`<div class="list" style="margin-top:14px"><button class="row-i" onclick="hardTest()"><span class="act-ic" style="width:42px;height:42px;background:var(--warn-soft);color:var(--warn)">${ic('flame')}</span><span class="tx"><b>Qiyin savollar</b><span>Eng ko'p xato qilgan ${Math.min(30,hard)} ta savolingiz</span></span>${ic('chev')}</button></div>`:''}
+  <h2>Modullar bo'yicha</h2><p class="mut sm" style="margin:-6px 0 12px">Har bir savolga 1 daqiqa vaqt beriladi. Savollar sonini o'zingiz ham yozishingiz mumkin.</p>
+  <div class="list">${DATA.map((m,i)=>`<div class="mrow">
+     <div class="mnum">${i+1}</div>
+     <div class="mtx"><b>${esc(m.t)}</b><span>${m.q.length} ta savol</span></div>
+     <div class="mact">
+       <button class="btn" onclick="startModule(${i},10)">10 ta<small>10 daqiqa</small></button>
+       <button class="btn" onclick="startModule(${i},0)">Hammasi<small>${m.q.length} daqiqa</small></button>
+       <form class="cnum" id="cf${i}" onsubmit="event.preventDefault();startCustom(${i})">
+         <input type="number" id="cn${i}" min="1" max="${m.q.length}" inputmode="numeric" placeholder="Soni" aria-label="Savollar soni" oninput="cnHint(${i})">
+         <span class="hint" id="ch${i}">1–${m.q.length} ta</span>
+         <button class="btn p" type="submit">Boshlash</button>
+       </form>
+     </div></div>`).join('')}</div>`;
   top0();
 }
+function cnHint(i){const v=parseInt($('#cn'+i).value,10),max=DATA[i].q.length,f=$('#cf'+i),h=$('#ch'+i);
+  f.classList.remove('err');h.textContent=v>0?(v>max?`Ko'pi bilan ${max} ta`:`${v} daqiqa`):`1–${max} ta`;if(v>max)f.classList.add('err')}
+function startCustom(i){const v=parseInt($('#cn'+i).value,10),max=DATA[i].q.length;
+  if(!(v>=1&&v<=max)){$('#cf'+i).classList.add('err');$('#ch'+i).textContent=`1 dan ${max} gacha son yozing`;$('#cn'+i).focus();return}
+  startModule(i,v>=max?0:v)}
 function pick(mi,n){const idx=shuf(DATA[mi].q.map((_,i)=>i));return (n?idx.slice(0,n):idx).sort((a,b)=>a-b).map(i=>({m:mi,i}))}
 let lastMk=null;
-function startGeneral(){lastMk=startGeneral;let qs=[];DATA.forEach((_,mi)=>qs=qs.concat(pick(mi,10)));runExam('Umumiy test (80)',qs,80*60,true)}
-function startModule(mi,n){lastMk=()=>startModule(mi,n);const qs=pick(mi,n);runExam(DATA[mi].s+' — '+(n?n+' ta':'barcha'),qs,qs.length*60,false)}
+function startGeneral(){lastMk=startGeneral;let qs=[];DATA.forEach((_,mi)=>qs=qs.concat(pick(mi,10)));runExam('Umumiy test, 80 savol',qs,80*60,true)}
+function startModule(mi,n){lastMk=()=>startModule(mi,n);const qs=pick(mi,n);runExam(DATA[mi].s+', '+(n?n+' ta':'hammasi'),qs,qs.length*60,false)}
 function hardList(){return Object.keys(st.cnt).filter(k=>st.cnt[k]>0).sort((a,b)=>st.cnt[b]-st.cnt[a])}
-function hardTest(){lastMk=hardTest;const qs=hardList().slice(0,30).map(k=>{const[m,i]=k.split('_').map(Number);return{m,i}}).sort(byNum);if(!qs.length)return;runExam('Qiyin savollar',qs,qs.length*60,false)}
-function wrongTest(){lastMk=wrongTest;const qs=Object.keys(st.wrong).map(k=>{const[m,i]=k.split('_').map(Number);return{m,i}}).sort(byNum);if(!qs.length)return;runExam('Xatolarim ustida ishlash',qs,qs.length*60,false)}
+function hardTest(){lastMk=hardTest;const qs=hardList().slice(0,30).map(k=>{const[m,i]=k.split('_').map(Number);return{m,i}}).filter(x=>DATA[x.m]&&DATA[x.m].q[x.i]).sort(byNum);if(!qs.length)return;runExam('Qiyin savollar',qs,qs.length*60,false)}
+function wrongTest(){lastMk=wrongTest;const qs=Object.keys(st.wrong).map(k=>{const[m,i]=k.split('_').map(Number);return{m,i}}).filter(x=>DATA[x.m]&&DATA[x.m].q[x.i]).sort(byNum);if(!qs.length)return;runExam('Xatolarim ustida ishlash',qs,qs.length*60,false)}
 
 /* ---------- EXAM ---------- */
 let ex;
 function runExam(name,qs,secs,general){
-  ex={name,general,cur:0,end:Date.now()+secs*1000,items:qs.map(x=>{const q=DATA[x.m].q[x.i];const ord=optOrder(x.m,x.i);return{...x,ord,ans:null}})};save();
-  setHead(name,async()=>{if(await dlg('Testdan chiqasizmi? Natija saqlanmaydi.','Ha, chiqish','Yo\'q'))testMenu()});
+  ex={name,general,cur:0,end:Date.now()+secs*1000,items:qs.map(x=>({...x,ord:optOrder(x.m,x.i),ans:null}))};save();
+  setHead(name,async()=>{if(await dlg('Testdan chiqasizmi? Natija saqlanmaydi.','Ha, chiqish',"Yo'q"))testMenu()});
   stopTimer();$('#timer').classList.remove('hidden');tick();timerInt=setInterval(tick,1000);
   showQ();
 }
-function tick(){const s=Math.max(0,Math.round((ex.end-Date.now())/1000));const t=$('#timer');t.textContent='⏱ '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0');t.classList.toggle('low',s<60);if(s<=0){stopTimer();finish();dlg('⏰ Vaqt tugadi! Natijangiz ko\'rsatildi.','OK')}}
+function tick(){const s=Math.max(0,Math.round((ex.end-Date.now())/1000));const t=$('#timer');t.innerHTML=ic('clock')+Math.floor(s/60)+':'+String(s%60).padStart(2,'0');t.classList.toggle('low',s<60);if(s<=0){stopTimer();finish();dlg("Vaqt tugadi. Natijangiz ko'rsatildi.",'OK')}}
 function showQ(){
-  const it=ex.items[ex.cur],q=DATA[it.m].q[it.i],n=ex.items.length;
-  const done=ex.items.filter(x=>x.ans!==null).length;
-  app.innerHTML=`<div class="row" style="justify-content:space-between"><span class="chip">Savol ${ex.cur+1} / ${n}</span><span class="mut">Javob berildi: ${done}</span></div>
-   ${ex.general?`<div class="mut" style="margin-top:6px">${esc(DATA[it.m].s)}</div>`:''}
-   <div class="card"><div class="q">${esc(q.q)}</div>${it.ord.map((k,j)=>`<button class="opt ${it.ans===k?'sel':''}" onclick="ans(${k})"><span class="l">${L[j]}</span><span>${esc(q.o[k])}</span></button>`).join('')}</div>
-   <details class="card"><summary style="cursor:pointer;font-weight:600">Savollar xaritasi</summary><div class="grid" style="margin-top:10px">${ex.items.map((x,j)=>`<button class="${x.ans!==null?'a':''} ${j===ex.cur?'cur':''}" onclick="go(${j})">${j+1}</button>`).join('')}</div></details>`;
-  foot(`<button class="btn" onclick="go(${ex.cur-1})" ${ex.cur?'':'disabled'}>← Oldingi</button>`+(ex.cur<n-1?`<button class="btn p" onclick="go(${ex.cur+1})">Keyingi →</button>`:'')+`<button class="btn" style="flex:.8" onclick="askFinish()">Yakunlash</button>`);
+  const it=ex.items[ex.cur],q=DATA[it.m].q[it.i],n=ex.items.length,done=ex.items.filter(x=>x.ans!==null).length;
+  app.innerHTML=`<div class="qhead"><span class="qn">Savol <b>${ex.cur+1}</b> / ${n}</span><span class="mut sm">${done} ta javob berildi</span></div>
+   <div class="prog"><i style="width:${done/n*100}%"></i></div>
+   ${ex.general?`<span class="modtag">${esc(DATA[it.m].s)}</span>`:''}
+   <article class="qcard"><h2 class="q">${esc(q.q)}</h2><div class="opts">${it.ord.map((k,j)=>`<button class="opt ${it.ans===k?'sel':''}" onclick="ans(${k})"><span class="l">${L[j]}</span><span class="ot">${esc(q.o[k])}</span></button>`).join('')}</div></article>
+   <details class="map"><summary>${ic('chev')} Savollar xaritasi</summary><div class="grid">${ex.items.map((x,j)=>`<button class="${x.ans!==null?'a':''} ${j===ex.cur?'cur':''}" onclick="go(${j})">${j+1}</button>`).join('')}</div></details>`;
+  foot(`<button class="btn" onclick="go(${ex.cur-1})" ${ex.cur?'':'disabled'}>${ic('back')} Oldingi</button>`+(ex.cur<n-1?`<button class="btn p" onclick="go(${ex.cur+1})">Keyingi ${ic('chev')}</button>`:'')+`<button class="btn" onclick="askFinish()">${ic('check')} Yakunlash</button>`);
 }
 function ans(k){ex.items[ex.cur].ans=k;if(ex.cur<ex.items.length-1)setTimeout(()=>go(ex.cur+1),220);showQ()}
 function go(j){if(j<0||j>=ex.items.length)return;ex.cur=j;showQ();top0()}
 async function askFinish(){const left=ex.items.filter(x=>x.ans===null).length;if(await dlg(left?`${left} ta savolga javob berilmagan. Yakunlaysizmi?`:'Testni yakunlaysizmi?','Ha, yakunlash','Davom etish'))finish()}
 function finish(){
-  stopTimer();
-  let s=0;const by={};
-  ex.items.forEach(x=>{const q=DATA[x.m].q[x.i],ok=x.ans===q.c;x.ok=ok;if(ok){s++;delete st.wrong[key(x.m,x.i)]}else miss(key(x.m,x.i));by[x.m]=by[x.m]||[0,0];by[x.m][1]++;if(ok)by[x.m][0]++});
-  const t=ex.items.length,p=Math.round(s/t*100);
-  const d=new Date();st.hist.push({n:ex.name,s,t,p,g:!!ex.general,d:d.toLocaleDateString('uz')+' '+d.toTimeString().slice(0,5),it:ex.items.map(x=>({m:x.m,i:x.i,a:x.ans}))});st.hist=st.hist.slice(-30);save();
-  const grade=p>=86?['A\'lo 🎉','var(--ok)']:p>=71?['Yaxshi 👍','var(--pri)']:p>=56?['Qoniqarli','var(--warn)']:['Yana tayyorlaning','var(--bad)'];
-  setHead('Natija',testMenu);
-  app.innerHTML=`<div class="card" style="text-align:center"><div class="mut">${esc(ex.name)}</div><div class="score" style="color:${grade[1]};margin:10px 0">${p}%</div><b>${s} / ${t} to'g'ri</b><div style="color:${grade[1]};font-weight:700;margin-top:4px">${grade[0]}</div></div>
-   ${ex.general?`<h2>Modullar bo'yicha</h2>`+Object.keys(by).map(m=>{const[a,b]=by[m];return`<div class="card" style="padding:12px 16px"><div class="row" style="justify-content:space-between"><span>${esc(DATA[m].s)}</span><b>${a}/${b}</b></div><div class="bar"><i style="width:${a/b*100}%;background:${a/b>=.7?'var(--ok)':a/b>=.5?'var(--warn)':'var(--bad)'}"></i></div></div>`}).join(''):''}
-   <h2>Javoblar tahlili</h2><div class="grid">${ex.items.map((x,j)=>`<button class="${x.ok?'g':'r'}" onclick="document.getElementById('rv${j}').scrollIntoView({behavior:'smooth',block:'center'})">${j+1}</button>`).join('')}</div>
-   <div class="tabs"><button class="btn on" id="tw" onclick="rvf(1)">Faqat xatolar</button><button class="btn" id="ta" onclick="rvf(0)">Hammasi</button></div>
-   <div id="rv">${ex.items.map((x,j)=>{const q=DATA[x.m].q[x.i];return`<div class="card rvi ${x.ok?'okk hidden':''}" id="rv${j}"><span class="chip ${x.ok?'ok':''}">${j+1}. ${x.ok?'To\'g\'ri':x.ans===null?'Javob berilmagan':'Xato'}</span><div class="q" style="margin-top:8px">${esc(q.q)}</div>
-    ${x.ans!==null&&!x.ok?`<div class="fb no">Sizning javobingiz: ${esc(q.o[x.ans])}</div>`:''}<div class="fb ok">✔ To'g'ri javob: ${esc(q.o[q.c])}</div>${x.ok?'':tipHTML(x.m,x.i)}</div>`}).join('')}</div>`;
-  if(s===t)app.querySelector('#rv').insertAdjacentHTML('afterbegin','<div class="card mut">Barcha javoblar to\'g\'ri! 🎉</div>');
-  foot(`<button class="btn" onclick="home()">🏠 Bosh sahifa</button>${lastMk?`<button class="btn p" onclick="lastMk()">🔁 Qayta ishlash</button>`:''}<button class="btn" onclick="testMenu()">Yangi test</button>`);
-  top0();
+  stopTimer();let s=0;
+  ex.items.forEach(x=>{const q=DATA[x.m].q[x.i],ok=x.ans===q.c;if(ok){s++;delete st.wrong[key(x.m,x.i)]}else miss(key(x.m,x.i))});
+  const t=ex.items.length,p=Math.round(s/t*100),d=new Date();
+  const h={n:ex.name,s,t,p,g:!!ex.general,d:d.toLocaleDateString('uz')+' '+d.toTimeString().slice(0,5),it:ex.items.map(x=>({m:x.m,i:x.i,a:x.ans}))};
+  st.hist.push(h);st.hist=st.hist.slice(-30);save();
+  renderResult(h,true);
+  foot(`<button class="btn" onclick="home()">${ic('home')} Bosh sahifa</button>${lastMk?`<button class="btn p" onclick="lastMk()">${ic('repeat')} Qayta ishlash</button>`:''}<button class="btn" onclick="testMenu()">Yangi test</button>`);
 }
-function reviewHist(idx){
-  const h=st.hist[idx];if(!h)return;stopTimer();
-  setHead('Natija tahlili',home);
-  const gr=h.p>=86?["A'lo 🎉",'var(--ok)']:h.p>=71?['Yaxshi 👍','var(--pri)']:h.p>=56?['Qoniqarli','var(--warn)']:['Yana tayyorlaning','var(--bad)'];
-  const head=`<div class="card" style="text-align:center"><div class="mut">${esc(h.n)} · ${h.d}</div><div class="score" style="color:${gr[1]};margin:10px 0">${h.p}%</div><b>${h.s} / ${h.t} to'g'ri</b><div style="color:${gr[1]};font-weight:700;margin-top:4px">${gr[0]}</div></div>`;
-  if(!h.it){app.innerHTML=head+`<div class="card mut">Bu test oldingi versiyada ishlangan, shuning uchun savollar tafsiloti saqlanmagan. Bundan keyin ishlagan testlaringiz to'liq ko'rinadi.</div>`;foot(`<button class="btn p" onclick="home()">🏠 Bosh sahifa</button>`);top0();return}
-  const items=h.it.map(x=>{const q=DATA[x.m]&&DATA[x.m].q[x.i];return q?{...x,q,ok:x.a===q.c}:null}).filter(Boolean);
-  const by={};items.forEach(x=>{by[x.m]=by[x.m]||[0,0];by[x.m][1]++;if(x.ok)by[x.m][0]++});
-  const bad=items.filter(x=>!x.ok).length;
-  app.innerHTML=head+
-   (h.g?`<h2>Modullar bo'yicha</h2>`+Object.keys(by).map(m=>{const[a,b]=by[m];return`<div class="card" style="padding:12px 16px"><div class="row" style="justify-content:space-between"><span>${esc(DATA[m].s)}</span><b>${a}/${b}</b></div><div class="bar"><i style="width:${a/b*100}%;background:${a/b>=.7?'var(--ok)':a/b>=.5?'var(--warn)':'var(--bad)'}"></i></div></div>`}).join(''):'')+
-   `<h2>Javoblar tahlili</h2><div class="row mut" style="margin-bottom:8px"><span class="chip ok">✔ ${items.length-bad} to'g'ri</span><span class="chip" style="background:var(--badbg);color:var(--bad)">✘ ${bad} xato</span></div>
-   <div class="grid">${items.map((x,j)=>`<button class="${x.ok?'g':'r'}" onclick="document.getElementById('rv${j}').scrollIntoView({behavior:'smooth',block:'center'})">${j+1}</button>`).join('')}</div>
-   <div class="tabs"><button class="btn ${bad?'on':''}" id="tw" onclick="rvf(1)">Faqat xatolar</button><button class="btn ${bad?'':'on'}" id="ta" onclick="rvf(0)">Hammasi</button></div>
-   <div id="rv">${items.map((x,j)=>`<div class="card rvi ${x.ok?'okk'+(bad?' hidden':''):''}" id="rv${j}"><span class="chip ${x.ok?'ok':''}">${j+1}. ${x.ok?"To'g'ri":x.a==null?'Javob berilmagan':'Xato'}</span><div class="q" style="margin-top:8px">${esc(x.q.q)}</div>${x.a!=null&&!x.ok?`<div class="fb no">Sizning javobingiz: ${esc(x.q.o[x.a])}</div>`:''}<div class="fb ok">✔ To'g'ri javob: ${esc(x.q.o[x.q.c])}</div></div>`).join('')}</div>`;
-  foot(`<button class="btn" onclick="home()">🏠 Bosh sahifa</button><button class="btn p" onclick="testMenu()">Test ishlash</button>`);
-  top0();
+function renderResult(h,tips){
+  const gr=grade(h.p);setHead(tips?'Natija':'Natija tahlili',tips?testMenu:home);
+  const items=(h.it||[]).map(x=>{const q=DATA[x.m]&&DATA[x.m].q[x.i];return q?{...x,q,ok:x.a===q.c}:null}).filter(Boolean);
+  const bad=items.filter(x=>!x.ok).length, skip=items.filter(x=>x.a==null).length;
+  let html=`<section class="result" style="--gc:${gr[1]}"><div class="ring">${ring(h.p)}<div class="ring-tx"><b>${h.p}%</b><span>natija</span></div></div>
+   <div><div class="gname">${gr[0]}</div><div class="meta">${esc(h.n)} · ${esc(h.d)}</div>
+   <div class="nums"><div><b>${h.s}</b><span>to'g'ri</span></div><div><b>${h.t-h.s}</b><span>xato</span></div>${h.it?`<div><b>${skip}</b><span>javobsiz</span></div>`:''}<div><b>${h.t}</b><span>jami</span></div></div></div></section>`;
+  if(!h.it){app.innerHTML=html+`<p class="mut" style="margin-top:16px">Bu test ilovaning oldingi versiyasida ishlangan, shuning uchun savollar tafsiloti saqlanmagan. Bundan keyingi testlaringiz to'liq ko'rinadi.</p>`;foot(`<button class="btn p" onclick="home()">${ic('home')} Bosh sahifa</button>`);top0();return}
+  if(h.g){const by={};items.forEach(x=>{by[x.m]=by[x.m]||[0,0];by[x.m][1]++;if(x.ok)by[x.m][0]++});
+    html+=`<h2>Modullar bo'yicha</h2><div class="list">`+Object.keys(by).map(m=>{const[a,b]=by[m],r=a/b;return`<div class="row-i"><span class="tx"><b>${esc(DATA[m].s)}</b><div class="bar"><i style="width:${r*100}%;background:${r>=.7?'var(--ok)':r>=.5?'var(--warn)':'var(--bad)'}"></i></div></span><span class="score-pill ${spc(r*100)}">${a} / ${b}</span></div>`}).join('')+`</div>`}
+  html+=`<h2>Javoblar tahlili</h2><div class="grid">${items.map((x,j)=>`<button class="${x.ok?'g':'r'}" onclick="rvShow(0);document.getElementById('rv${j}').scrollIntoView({behavior:'smooth',block:'center'})">${j+1}</button>`).join('')}</div>
+   <div class="seg" id="rvseg"><button class="${bad?'on':''}" onclick="rvShow(1)">Faqat xatolar (${bad})</button><button class="${bad?'':'on'}" onclick="rvShow(0)">Hammasi (${items.length})</button></div>
+   <div id="rv">${bad?'':`<p class="mut">Barcha javoblar to'g'ri. Barakalla!</p>`}${items.map((x,j)=>`<div class="rv-i ${x.ok?'okk'+(bad?' hidden':''):''}" id="rv${j}">
+     ${x.ok?`<span class="st ok">${ic('check')} ${j+1}. To'g'ri</span>`:x.a==null?`<span class="st nt">${j+1}. Javob berilmagan</span>`:`<span class="st no">${ic('x')} ${j+1}. Xato</span>`}
+     <div class="q">${esc(x.q.q)}</div>
+     ${x.a!=null&&!x.ok?`<div class="ans no">${ic('x')}<span>Sizning javobingiz: ${esc(x.q.o[x.a])}</span></div>`:''}
+     <div class="ans ok">${ic('check')}<span>To'g'ri javob: ${esc(x.q.o[x.q.c])}</span></div>
+     ${tips&&!x.ok?tipHTML(x.m,x.i):''}</div>`).join('')}</div>`;
+  app.innerHTML=html;top0();
 }
-function rvf(w){document.querySelectorAll('.okk').forEach(e=>e.classList.toggle('hidden',!!w));$('#tw').classList.toggle('on',!!w);$('#ta').classList.toggle('on',!w)}
+function rvShow(w){document.querySelectorAll('.okk').forEach(e=>e.classList.toggle('hidden',!!w));const b=$('#rvseg').children;b[0].classList.toggle('on',!!w);b[1].classList.toggle('on',!w)}
+function reviewHist(idx){const h=st.hist[idx];if(!h)return;stopTimer();renderResult(h,false);
+  if(h.it)foot(`<button class="btn" onclick="home()">${ic('home')} Bosh sahifa</button><button class="btn p" onclick="testMenu()">Test ishlash</button>`)}
 
 /* ---------- LEARN ---------- */
 function learnMenu(){
   stopTimer();foot();setHead('Test yodlash',home);
-  app.innerHTML=`<div class="mut"><b>📋 Ro'yxat</b> — barcha savollar, javobni belgilaysiz va to'g'ri yoki xato ekanini ko'rasiz.<br><b>🃏 Kartochka</b> — savol chiqadi, bosib javobni ko'rasiz. Bilmaganlaringiz qayta-qayta chiqadi.</div>`+
-  DATA.map((m,i)=>{const l=m.q.filter((_,j)=>st.learned[key(i,j)]).length;return`<div class="card"><div class="mod"><div class="n">${i+1}</div><div class="x"><b>${esc(m.t)}</b><span class="mut">${m.q.length} ta savol · yodlangan: ${l}</span><div class="bar"><i style="width:${l/m.q.length*100}%"></i></div></div></div>
-   <div class="modes"><button class="btn" onclick="learn(${i})">📋 Ro'yxat<small>barcha savollar</small></button><button class="btn p" onclick="fcStart(${i})">🃏 Kartochka<small style="color:inherit;opacity:.8">tez yodlash</small></button></div></div>`}).join('');
+  app.innerHTML=`<p class="mut">Fanni tanlang. <b style="color:var(--ink)">Ro'yxat</b>da barcha savollar chiqadi: javobni belgilaysiz va to'g'ri yoki xato ekanini ko'rasiz. <b style="color:var(--ink)">Kartochka</b>da savol chiqadi, bosganda javob ochiladi, bilmaganlaringiz qayta chiqadi.</p>
+  <div class="list" style="margin-top:16px">${DATA.map((m,i)=>{const l=m.q.filter((_,j)=>st.learned[key(i,j)]).length;return`<div class="mrow">
+    <div class="mnum">${i+1}</div>
+    <div class="mtx"><b>${esc(m.t)}</b><span>${l} / ${m.q.length} yodlangan</span><div class="bar"><i style="width:${l/m.q.length*100}%"></i></div></div>
+    <div class="mact"><button class="btn" onclick="learn(${i})">${ic('list')} Ro'yxat</button><button class="btn p" onclick="fcStart(${i})">${ic('cards')} Kartochka</button></div></div>`}).join('')}</div>`;
   top0();
 }
 let ln;
 function learn(mi){
   ln={mi,f:'all',s:'',shown:{},ord:DATA[mi].q.map((_,i)=>optOrder(mi,i))};save();
   setHead(DATA[mi].s,learnMenu);
-  app.innerHTML=`<div class="mut">${esc(DATA[mi].t)}</div>
-   <div class="tabs" id="lf"><button class="btn on" data-f="all">Hammasi</button><button class="btn" data-f="new">Yodlanmagan</button><button class="btn" data-f="wrong">Xato qilinganlar</button><button class="btn" data-f="done">Yodlangan</button></div>
-   <input type="search" id="ls" placeholder="🔍 Savol yoki javobdan qidirish...">
-   <div class="row" style="margin-top:8px"><label class="mut"><input type="checkbox" id="lshow"> Javoblarni darhol ko'rsatish (o'qish rejimi)</label></div>
+  app.innerHTML=`<p class="mut">${esc(DATA[mi].t)}</p>
+   <div class="seg" id="lf" style="margin-top:14px;flex-wrap:wrap"><button class="on" data-f="all">Hammasi</button><button data-f="new">Yodlanmagan</button><button data-f="wrong">Xato qilinganlar</button><button data-f="done">Yodlangan</button></div>
+   <div class="toolbar"><label class="search">${ic('search')}<input type="search" id="ls" placeholder="Savol yoki javobdan qidirish"></label>
+   <label class="check"><input type="checkbox" id="lshow"> Javoblarni darhol ko'rsatish</label></div>
    <div id="lst"></div>`;
-  $('#lf').onclick=e=>{const f=e.target.dataset.f;if(!f)return;ln.f=f;[...$('#lf').children].forEach(b=>b.classList.toggle('on',b===e.target));renderL()};
+  $('#lf').onclick=e=>{const b=e.target.closest('[data-f]');if(!b)return;ln.f=b.dataset.f;[...$('#lf').children].forEach(x=>x.classList.toggle('on',x===b));renderL()};
   $('#ls').oninput=e=>{ln.s=e.target.value.toLowerCase();renderL()};
   $('#lshow').onchange=renderL;
-  foot(`<button class="btn" onclick="top0()">↑ Tepaga</button><button class="btn p" onclick="startModule(${mi},10)">Shu fandan 10 ta test</button>`);
+  foot(`<button class="btn" onclick="top0()">Tepaga</button><button class="btn p" onclick="startModule(${mi},10)">${ic('test')} Shu fandan 10 ta test</button>`);
   renderL();top0();
 }
 function renderL(){
@@ -248,18 +460,18 @@ function renderL(){
   const list=m.q.map((q,i)=>({q,i})).filter(({q,i})=>{const k=key(ln.mi,i);
     if(ln.f==='new'&&st.learned[k])return false;if(ln.f==='wrong'&&!st.wrong[k])return false;if(ln.f==='done'&&!st.learned[k])return false;
     if(ln.s&&!(q.q+' '+q.o.join(' ')).toLowerCase().includes(ln.s))return false;return true});
-  $('#lst').innerHTML=list.length?list.map(({q,i})=>lcard(i,show)).join(''):'<div class="card mut">Bu bo\'limda savol yo\'q.</div>';
+  $('#lst').innerHTML=list.length?list.map(({i})=>lcard(i,show)).join(''):`<div class="empty" style="margin-top:12px"><p class="mut">Bu bo'limda hozircha savol yo'q.</p></div>`;
 }
 function lcard(i,show){
-  const m=DATA[ln.mi],q=m.q[i],k=key(ln.mi,i),sel=ln.shown[i],ansd=sel!==undefined||show;
-  return`<div class="card" id="lc${i}"><div class="row" style="justify-content:space-between"><span class="chip">${i+1}-savol</span>${st.learned[k]?'<span class="chip ok">✔ Yodlangan</span>':''}</div>
-   <div class="q" style="margin-top:8px">${esc(q.q)}</div>
-   ${ln.ord[i].map((j,p)=>{const o=q.o[j];let c='';if(ansd){if(j===q.c)c='ok';else if(j===sel)c='no'}return`<button class="opt ${c}" ${ansd?'disabled':''} onclick="lans(${i},${j})"><span class="l">${L[p]}</span><span>${esc(o)}</span></button>`}).join('')}
-   ${sel!==undefined?`<div class="fb ${sel===q.c?'ok':'no'}">${sel===q.c?'✅ To\'g\'ri! Barakalla.':'❌ Xato. To\'g\'ri javob: <b>'+esc(q.o[q.c])+'</b>'}</div>`:''}
-   ${ansd?`<div class="row" style="margin-top:10px"><button class="btn" onclick="lreset(${i})">↺ Qayta</button><button class="btn ${st.learned[k]?'':'p'}" onclick="ltog(${i})">${st.learned[k]?'Yodlanmagan deb belgilash':'✔ Yodladim'}</button></div>`:''}</div>`;
+  const q=DATA[ln.mi].q[i],k=key(ln.mi,i),sel=ln.shown[i],ansd=sel!==undefined||show;
+  return`<div class="lc" id="lc${i}"><div class="lc-h"><span class="qno">${i+1}-savol</span>${st.learned[k]?`<span class="done-badge">${ic('check')} Yodlangan</span>`:''}</div>
+   <div class="q">${esc(q.q)}</div>
+   <div class="opts">${ln.ord[i].map((j,p)=>{let c='';if(ansd){if(j===q.c)c='ok';else if(j===sel)c='no'}return`<button class="opt ${c}" ${ansd?'disabled':''} onclick="lans(${i},${j})"><span class="l">${L[p]}</span><span class="ot">${esc(q.o[j])}</span></button>`}).join('')}</div>
+   ${sel!==undefined?(sel===q.c?`<div class="verdict ok">${ic('check')} To'g'ri</div>`:`<div class="verdict no">${ic('x')} Xato</div>`):''}
+   ${ansd?`<div class="lc-act"><button class="btn" onclick="lreset(${i})">${ic('undo')} Qayta belgilash</button><button class="btn ${st.learned[k]?'learned':'p'}" onclick="ltog(${i})">${st.learned[k]?ic('check')+' Yodlangan':'Yodladim'}</button></div>`:''}</div>`;
 }
 function lans(i,j){ln.shown[i]=j;const k=key(ln.mi,i);if(j===DATA[ln.mi].q[i].c)delete st.wrong[k];else{miss(k);delete st.learned[k]}save();$('#lc'+i).outerHTML=lcard(i,$('#lshow').checked)}
-function lreset(i){delete ln.shown[i];$('#lc'+i).outerHTML=lcard(i,false)}
+function lreset(i){delete ln.shown[i];ln.ord[i]=optOrder(ln.mi,i);save();$('#lc'+i).outerHTML=lcard(i,false)}
 function ltog(i){const k=key(ln.mi,i);if(st.learned[k])delete st.learned[k];else st.learned[k]=1;save();$('#lc'+i).outerHTML=lcard(i,$('#lshow').checked)}
 
 /* ---------- FLASHCARDS ---------- */
@@ -270,23 +482,20 @@ function fcStart(mi,all){
   if(!all&&nl.length)idx=nl;
   idx=shuf(idx);const w=idx.filter(i=>st.wrong[key(mi,i)]);idx=w.concat(idx.filter(i=>!st.wrong[key(mi,i)]));
   fc={ord:{},mi,deck:idx,total:idx.length,known:0,flip:false,miss:{}};
-  setHead('🃏 '+m.s,learnMenu);fcShow();
+  setHead('Kartochka: '+m.s,learnMenu);fcShow();
 }
 function fcShow(){
   const m=DATA[fc.mi];
   if(!fc.deck.length){const bad=Object.keys(fc.miss).length;
-    app.innerHTML=`<div class="card" style="text-align:center;padding:28px 16px"><div style="font-size:48px">🎉</div><h1>Kartochkalar tugadi!</h1><div class="mut">${fc.total} ta kartochka o'tildi. ${bad?bad+' tasini birinchi urinishda bilmadingiz — ular «Xato qilinganlar»ga qo\'shildi.':'Hammasini birinchi urinishda bildingiz!'}</div></div>`;
-    foot(`<button class="btn" onclick="learnMenu()">Fanlar</button><button class="btn" onclick="fcStart(${fc.mi},true)">Hammasini qayta</button><button class="btn p" onclick="startModule(${fc.mi},10)">10 ta test</button>`);top0();return}
+    app.innerHTML=`<div class="empty"><div class="big">${fc.total}</div><h2 style="margin-top:6px">Kartochkalar tugadi</h2><p class="mut">${bad?bad+" tasini birinchi urinishda bilmadingiz, ular «Xato qilinganlar»ga qo'shildi.":'Hammasini birinchi urinishda bildingiz.'}</p></div>`;
+    foot(`<button class="btn" onclick="learnMenu()">Fanlar</button><button class="btn" onclick="fcStart(${fc.mi},true)">${ic('repeat')} Hammasini qayta</button><button class="btn p" onclick="startModule(${fc.mi},10)">10 ta test</button>`);top0();return}
   const i=fc.deck[0],q=m.q[i],done=fc.total-fc.deck.length;
-  app.innerHTML=`<div class="row" style="justify-content:space-between"><span class="chip">Qoldi: ${fc.deck.length}</span><span class="mut">Bildim: ${fc.known} / ${fc.total}</span></div>
-   <div class="bar"><i style="width:${done/fc.total*100}%"></i></div>
-   <div class="card fcc" onclick="fcFlip()" style="min-height:240px;cursor:pointer;margin-top:12px;display:flex;flex-direction:column;justify-content:center">
-    <span class="mut">${i+1}-savol${fc.miss[i]?' · 🔁 takror':''}</span>
-    <div class="q" style="font-size:20px;margin-top:8px">${esc(q.q)}</div>
-    ${fc.flip?`<div class="fb ok" style="font-size:17px">✔ ${esc(q.o[q.c])}</div>`:`<div class="mut" style="text-align:center;margin-top:18px">👆 Javobni o'ylang, keyin kartochkani bosing</div>`}
-   </div>
-   ${fc.flip?`<details class="card"><summary style="cursor:pointer;font-weight:600">Variantlar</summary>${(fc.ord[i]||(fc.ord[i]=optOrder(fc.mi,i))).map((j,p)=>`<div class="opt ${j===q.c?'ok':''}" style="cursor:default"><span class="l">${L[p]}</span><span>${esc(q.o[j])}</span></div>`).join('')}</details>`:''}`;
-  foot(fc.flip?`<button class="btn" style="color:var(--bad)" onclick="fcAns(0)">❌ Bilmasdim</button><button class="btn p" onclick="fcAns(1)">✅ Bilardim</button>`
+  app.innerHTML=`<div class="qhead"><span class="qn">Qoldi <b>${fc.deck.length}</b></span><span class="mut sm">Bildim: ${fc.known} / ${fc.total}</span></div>
+   <div class="prog"><i style="width:${done/fc.total*100}%;background:var(--acc)"></i></div>
+   <div class="fc" id="fcc" onclick="fcFlip()"><span class="qno">${i+1}-savol${fc.miss[i]?' · takror':''}</span><div class="q">${esc(q.q)}</div>
+    ${fc.flip?`<div class="answer">${ic('check')}<span>${esc(q.o[q.c])}</span></div>`:`<div class="hintline">Javobni o'ylab ko'ring, keyin kartochkani bosing</div>`}</div>
+   ${fc.flip?`<details class="map"><summary>${ic('chev')} Barcha variantlar</summary><div class="opts" style="padding-bottom:14px">${(fc.ord[i]||(fc.ord[i]=optOrder(fc.mi,i))).map((j,p)=>`<div class="opt ${j===q.c?'ok':''}" style="cursor:default"><span class="l">${L[p]}</span><span class="ot">${esc(q.o[j])}</span></div>`).join('')}</div></details>`:''}`;
+  foot(fc.flip?`<button class="btn danger" onclick="fcAns(0)">${ic('x')} Bilmasdim</button><button class="btn p" onclick="fcAns(1)">${ic('check')} Bilardim</button>`
               :`<button class="btn p" onclick="fcFlip()">Javobni ko'rish</button>`);
 }
 function fcFlip(){if(fc.flip)return;fc.flip=true;fcShow()}
@@ -296,7 +505,7 @@ function fcAns(ok){
   else{fc.miss[i]=1;miss(k);delete st.learned[k];fc.deck.splice(Math.min(3,fc.deck.length),0,i)}
   save();fcShow();top0();
 }
-document.addEventListener('keydown',e=>{if(!fc||!document.querySelector('.fcc'))return;if(e.code==='Space'){e.preventDefault();fcFlip()}else if(fc.flip&&e.key==='ArrowRight')fcAns(1);else if(fc.flip&&e.key==='ArrowLeft')fcAns(0)});
+document.addEventListener('keydown',e=>{if(!fc||!document.getElementById('fcc'))return;if(e.code==='Space'){e.preventDefault();fcFlip()}else if(fc.flip&&e.key==='ArrowRight')fcAns(1);else if(fc.flip&&e.key==='ArrowLeft')fcAns(0)});
 
 /* ---------- MEMORY TIPS ---------- */
 const STOP=new Set('va bu bilan uchun qaysi qanday nima nimani necha nechta deb bo\'lgan bo\'lib holda hamda yoki ham esa ushbu shu bir har ular uning o\'z ko\'rsating toping belgilang javobni to\'g\'ri berilgan keltirilgan aniqlang tushunchasi degan ataladi nomlanadi deyiladi nomini qilish etish orqali asosida kabi boshqa barcha hamma dan ga ning the and'.split(' '));
@@ -329,19 +538,22 @@ function tipHTML(mi,i){
 }
 function short(s,n){const w=s.replace(/^[\s.…\-]+/,'').split(/\s+/);return w.slice(0,n).join(' ')+(w.length>n?'…':'')}
 
+
+
 /* ---------- THEME ---------- */
 (function(){const r=document.documentElement,b=document.getElementById('thm');let t=null;try{t=localStorage.getItem('mo_theme')}catch(e){}
  const sys=()=>window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
  const cur=()=>t||sys();
- const apply=()=>{r.setAttribute('data-theme',cur());b.textContent=cur()==='dark'?'☀️':'🌙';document.querySelector('meta[name=theme-color]').content=cur()==='dark'?'#0f1218':'#1d4ed8'};
+ const apply=()=>{r.setAttribute('data-theme',cur());b.innerHTML=ic(cur()==='dark'?'sun':'moon');document.querySelector('meta[name=theme-color]').content=cur()==='dark'?'#0c131c':'#1f3fa6'};
  b.onclick=()=>{t=cur()==='dark'?'light':'dark';try{localStorage.setItem('mo_theme',t)}catch(e){}apply()};apply();})();
+document.getElementById('back').innerHTML=ic('back');
 /* ---------- ZOOM / WIDTH ---------- */
 (function(){let z=1,w='full';try{const v=JSON.parse(localStorage.getItem('mo_view')||'{}');z=v.z||1;w=v.w||'full'}catch(e){}
  const W={narrow:'860px',wide:'1200px',full:'100%'},r=document.documentElement;
  const apply=()=>{document.body.style.zoom=z;r.style.setProperty('--mw',W[w]);try{localStorage.setItem('mo_view',JSON.stringify({z,w}))}catch(e){}const p=document.getElementById('zp');if(p)draw(p)};
- const draw=p=>{p.innerHTML=`<h4>Shrift o'lchami</h4><div class="row" style="margin-bottom:14px"><button class="btn" data-z="-1">A−</button><span class="val">${Math.round(z*100)}%</span><button class="btn" data-z="1">A+</button></div>
-   <h4>Ekran kengligi</h4><div class="seg">${[['narrow','Tor'],['wide','Keng'],['full','To\'liq']].map(([k,t])=>`<button class="btn ${w===k?'on':''}" data-w="${k}">${t}</button>`).join('')}</div>
-   <button class="btn" style="width:100%" data-z="0">Asl holatiga qaytarish</button>`};
+ const draw=p=>{p.innerHTML=`<div class="lbl">Shrift o'lchami</div><div class="zr"><button class="btn" data-z="-1" aria-label="Kichraytirish">A−</button><span class="val">${Math.round(z*100)}%</span><button class="btn" data-z="1" aria-label="Kattalashtirish">A+</button></div>
+   <div class="lbl">Ekran kengligi</div><div class="seg">${[['narrow','Tor'],['wide','Keng'],['full',"To'liq"]].map(([k,t])=>`<button class="${w===k?'on':''}" data-w="${k}">${t}</button>`).join('')}</div>
+   <button class="btn reset" data-z="0">Asl holatiga qaytarish</button>`};
  document.getElementById('zoomb').onclick=e=>{e.stopPropagation();let p=document.getElementById('zp');if(p){p.remove();return}
    p=document.createElement('div');p.id='zp';p.className='zp';draw(p);document.body.appendChild(p);
    p.onclick=ev=>{ev.stopPropagation();const b=ev.target.closest('button');if(!b)return;
