@@ -252,6 +252,14 @@ details.guide ol{margin:0 0 16px;padding-left:22px;color:var(--mut)}details.guid
 .zp .val{min-width:64px;text-align:center;font:600 16px var(--f-disp);font-variant-numeric:tabular-nums}
 .zp .seg{display:flex;width:100%;margin:0 0 16px}.zp .seg button{flex:1}
 .zp .reset{width:100%}
+/* pick modules */
+.pk{cursor:pointer;align-items:center}
+.pk:hover{background:var(--sunk)}
+.pk input{width:22px;height:22px;accent-color:var(--pri);flex:none;margin:0;cursor:pointer}
+.pk:has(input:checked){background:var(--pri-soft)}
+.pk .mnum{width:34px;height:34px;font-size:13px;grid-row:auto}
+.pkbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.pkbar .btn.p{flex:1;min-width:240px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -348,6 +356,9 @@ function testMenu(){
   <div class="feature"><div><span class="tag">${ic('target')} Tavsiya etiladi</span><b>Umumiy test</b><p>80 savol: har bir moduldan 10 tadan. Vaqt 80 daqiqa, xuddi haqiqiy imtihondagidek.</p></div>
     <button class="btn" onclick="startGeneral()">${ic('play')} Boshlash</button></div>
   ${hard?`<div class="list" style="margin-top:14px"><button class="row-i" onclick="hardTest()"><span class="act-ic" style="width:42px;height:42px;background:var(--warn-soft);color:var(--warn)">${ic('flame')}</span><span class="tx"><b>Qiyin savollar</b><span>Eng ko'p xato qilgan ${Math.min(30,hard)} ta savolingiz</span></span>${ic('chev')}</button></div>`:''}
+  <h2>Fanlarni tanlab test</h2><p class="mut sm" style="margin:-6px 0 12px">Yodlagan fanlaringizni belgilang. Har biridan 10 tadan savol olinadi va ular fanma-fan ketma-ket chiqadi. Har bir savolga 1 daqiqa.</p>
+  <div class="list">${DATA.map((m,i)=>`<label class="row-i pk"><input type="checkbox" class="pkc" value="${i}" ${(st.pick||[]).includes(i)?'checked':''} onchange="pkUpd()"><span class="mnum">${i+1}</span><span class="tx"><b>${esc(m.t)}</b><span>${m.q.length} ta savol</span></span></label>`).join('')}</div>
+  <div class="pkbar"><button class="btn" id="pkall" onclick="pkAll()">Hammasini belgilash</button><button class="btn p" id="pkgo" onclick="startPicked()" disabled>Fanlarni tanlang</button></div>
   <h2>Modullar bo'yicha</h2><p class="mut sm" style="margin:-6px 0 12px">Har bir savolga 1 daqiqa vaqt beriladi. Savollar sonini o'zingiz ham yozishingiz mumkin.</p>
   <div class="list">${DATA.map((m,i)=>`<div class="mrow">
      <div class="mnum">${i+1}</div>
@@ -361,8 +372,16 @@ function testMenu(){
          <button class="btn p" type="submit">Boshlash</button>
        </form>
      </div></div>`).join('')}</div>`;
-  top0();
+  pkUpd();top0();
 }
+function pkSel(){return [...document.querySelectorAll('.pkc:checked')].map(c=>+c.value).sort((a,b)=>a-b)}
+function pkUpd(){const sel=pkSel(),n=sel.length*10,b=$('#pkgo');if(!b)return;st.pick=sel;save();
+  b.disabled=!sel.length;b.innerHTML=sel.length?`${ic('play')} Boshlash: ${sel.length} ta fan, ${n} savol, ${n} daqiqa`:'Fanlarni tanlang';
+  $('#pkall').textContent=sel.length===DATA.length?'Belgilarni olib tashlash':'Hammasini belgilash';
+  foot(sel.length?`<button class="btn p" onclick="startPicked()">${ic('play')} ${sel.length} ta fan: ${n} savol, ${n} daqiqa</button>`:'')}
+function pkAll(){const cs=[...document.querySelectorAll('.pkc')],on=!cs.every(c=>c.checked);cs.forEach(c=>c.checked=on);pkUpd()}
+function startPicked(){const sel=pkSel();if(sel.length)runPicked(sel)}
+function runPicked(sel){lastMk=()=>runPicked(sel);let qs=[];sel.forEach(mi=>qs=qs.concat(pick(mi,10)));runExam(`Tanlangan ${sel.length} ta fan, ${qs.length} savol`,qs,qs.length*60,true)}
 function cnHint(i){const v=parseInt($('#cn'+i).value,10),max=DATA[i].q.length,f=$('#cf'+i),h=$('#ch'+i);
   f.classList.remove('err');h.textContent=v>0?(v>max?`Ko'pi bilan ${max} ta`:`${v} daqiqa`):`1–${max} ta`;if(v>max)f.classList.add('err')}
 function startCustom(i){const v=parseInt($('#cn'+i).value,10),max=DATA[i].q.length;
