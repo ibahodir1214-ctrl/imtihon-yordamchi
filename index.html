@@ -260,6 +260,24 @@ details.guide ol{margin:0 0 16px;padding-left:22px;color:var(--mut)}details.guid
 .pk .mnum{width:34px;height:34px;font-size:13px;grid-row:auto}
 .pkbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
 .pkbar .btn.p{flex:1;min-width:240px}
+/* hard (flag) */
+.cnt{font:600 13px var(--f-disp);font-variant-numeric:tabular-nums;padding:3px 9px;border-radius:999px;background:var(--sunk)}
+.flagb{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--mut);cursor:pointer;flex:none}
+.flagb svg.i{width:16px;height:16px}
+.flagb:hover{border-color:var(--warn);color:var(--warn)}
+.flagb.on{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
+.flagb.on svg.i{fill:currentColor}
+.lc.flagged{border-color:color-mix(in srgb,var(--warn) 50%,var(--line))}
+.lc-badges{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.flagpanel{display:flex;align-items:center;gap:14px;width:100%;text-align:left;margin-top:16px;padding:16px 18px;border-radius:var(--r-md);border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);cursor:pointer}
+.flagpanel:hover{border-color:var(--warn)}
+.flagpanel .act-ic,.ic-warn{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;flex:none;background:var(--warn-soft);color:var(--warn)}
+.flagpanel .tx{flex:1;min-width:0}.flagpanel .tx b{display:block;font-weight:600}.flagpanel .tx span{font-size:14px;color:var(--mut)}
+.cnt.w{background:var(--warn-soft);color:var(--warn)}
+.btn.flagbtn{color:var(--warn)}
+.act-flag .act-ic{background:var(--warn-soft);color:var(--warn)}
+.empty .big svg.i{width:46px;height:46px;color:var(--warn)}
+.rv-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -279,7 +297,7 @@ const LS='mo_tests_v1';
 let st={wrong:{},learned:{},hist:[],cnt:{}};
 try{st=Object.assign(st,JSON.parse(localStorage.getItem(LS)||'{}'))}catch(e){}
 if(!st.v2){for(const o of [st.wrong,st.learned])for(const k in o)if(k.startsWith('7_'))delete o[k];st.v2=1;}
-st.cnt=st.cnt||{};st.pos=st.pos||{};st.hist=st.hist||[];
+st.cnt=st.cnt||{};st.pos=st.pos||{};st.hist=st.hist||[];st.flag=st.flag||{};
 const key=(m,i)=>m+'_'+i;
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 function optOrder(m,i){const q=DATA[m].q[i],k=key(m,i),n=q.o.length,last=st.pos[k];let ord,p,t=0;
@@ -308,6 +326,7 @@ const P={back:'<path d="M15 18l-6-6 6-6"/>',chev:'<path d="M9 6l6 6-6 6"/>',
  check:'<path d="M5 12.5l4.5 4.5L19 7"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',
  search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+ flag:'<path d="M5 21V4"/><path d="M5 4h12l-2.5 4L17 12H5"/>',
  undo:'<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>',play:'<path d="M7 4v16l13-8z"/>'};
 const ic=(n,c='')=>`<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
 
@@ -339,7 +358,7 @@ function home(){
     <button class="act act-learn" onclick="learnMenu()"><span class="act-ic">${ic('book')}</span><span class="act-tx"><b>Test yodlash</b><span>Har bir fanning barcha savollari. Belgilashingiz bilan to'g'ri yoki xato ekani ko'rinadi.</span></span>${ic('chev')}</button>
     <button class="act act-test" onclick="testMenu()"><span class="act-ic">${ic('test')}</span><span class="act-tx"><b>Test ishlash</b><span>80 savollik umumiy test yoki har bir modul alohida, vaqt bilan.</span></span>${ic('chev')}</button>
   </div>
-  ${hard||wrong?`<div class="quick">${hard?`<button class="btn" onclick="hardTest()">${ic('flame')} Qiyin savollar testi <span class="cnt">${Math.min(30,hard)}</span></button>`:''}${wrong?`<button class="btn" onclick="wrongTest()">${ic('repeat')} Xatolarim ustida ishlash <span class="cnt">${wrong}</span></button>`:''}</div>`:''}
+  ${hard||wrong||flagList().length?`<div class="quick">${flagList().length?`<button class="btn" onclick="flagHome()">${ic('flag')} Qiyin savollarim <span class="cnt w">${flagList().length}</span></button>`:''}${hard?`<button class="btn" onclick="hardTest()">${ic('flame')} Ko'p xato qilinganlar <span class="cnt">${Math.min(30,hard)}</span></button>`:''}${wrong?`<button class="btn" onclick="wrongTest()">${ic('repeat')} Xatolarim ustida ishlash <span class="cnt">${wrong}</span></button>`:''}</div>`:''}
   ${st.hist.length?`<h2>Oxirgi testlar</h2><div class="list">`+st.hist.map((h,idx)=>({h,idx})).slice(-5).reverse().map(({h,idx})=>`<button class="row-i" onclick="reviewHist(${idx})"><span class="tx"><b>${esc(h.n)}</b><span>${esc(h.d)} · ${h.s} / ${h.t} to'g'ri</span></span><span class="score-pill ${spc(h.p)}">${h.p}%</span>${ic('chev')}</button>`).join('')+`</div>`:''}
   <details class="guide"><summary>Qanday tayyorlanish kerak ${ic('chev')}</summary><ol>
     <li><b>Test yodlash</b> bo'limida har bir fanni bir marta to'liq o'ting.</li>
@@ -355,7 +374,8 @@ function testMenu(){
   app.innerHTML=`
   <div class="feature"><div><span class="tag">${ic('target')} Tavsiya etiladi</span><b>Umumiy test</b><p>80 savol: har bir moduldan 10 tadan. Vaqt 80 daqiqa, xuddi haqiqiy imtihondagidek.</p></div>
     <button class="btn" onclick="startGeneral()">${ic('play')} Boshlash</button></div>
-  ${hard?`<div class="list" style="margin-top:14px"><button class="row-i" onclick="hardTest()"><span class="act-ic" style="width:42px;height:42px;background:var(--warn-soft);color:var(--warn)">${ic('flame')}</span><span class="tx"><b>Qiyin savollar</b><span>Eng ko'p xato qilgan ${Math.min(30,hard)} ta savolingiz</span></span>${ic('chev')}</button></div>`:''}
+  ${flagList().length?`<div class="list" style="margin-top:14px"><button class="row-i" onclick="flagTest()"><span class="ic-warn" style="width:42px;height:42px">${ic('flag')}</span><span class="tx"><b>Qiyin deb belgilaganlarim</b><span>${flagList().length} ta savol, ${flagList().length} daqiqa</span></span>${ic('chev')}</button></div>`:''}
+  ${hard?`<div class="list" style="margin-top:14px"><button class="row-i" onclick="hardTest()"><span class="act-ic" style="width:42px;height:42px;background:var(--warn-soft);color:var(--warn)">${ic('flame')}</span><span class="tx"><b>Ko'p xato qilinganlar</b><span>Eng ko'p xato qilgan ${Math.min(30,hard)} ta savolingiz</span></span>${ic('chev')}</button></div>`:''}
   <h2>Fanlarni tanlab test</h2><p class="mut sm" style="margin:-6px 0 12px">Yodlagan fanlaringizni belgilang. Har biridan 10 tadan savol olinadi va ular fanma-fan ketma-ket chiqadi. Har bir savolga 1 daqiqa.</p>
   <div class="list">${DATA.map((m,i)=>`<label class="row-i pk"><input type="checkbox" class="pkc" value="${i}" ${(st.pick||[]).includes(i)?'checked':''} onchange="pkUpd()"><span class="mnum">${i+1}</span><span class="tx"><b>${esc(m.t)}</b><span>${m.q.length} ta savol</span></span></label>`).join('')}</div>
   <div class="pkbar"><button class="btn" id="pkall" onclick="pkAll()">Hammasini belgilash</button><button class="btn p" id="pkgo" onclick="startPicked()" disabled>Fanlarni tanlang</button></div>
@@ -392,7 +412,7 @@ let lastMk=null;
 function startGeneral(){lastMk=startGeneral;let qs=[];DATA.forEach((_,mi)=>qs=qs.concat(pick(mi,10)));runExam('Umumiy test, 80 savol',qs,80*60,true)}
 function startModule(mi,n){lastMk=()=>startModule(mi,n);const qs=pick(mi,n);runExam(DATA[mi].s+', '+(n?n+' ta':'hammasi'),qs,qs.length*60,false)}
 function hardList(){return Object.keys(st.cnt).filter(k=>st.cnt[k]>0).sort((a,b)=>st.cnt[b]-st.cnt[a])}
-function hardTest(){lastMk=hardTest;const qs=hardList().slice(0,30).map(k=>{const[m,i]=k.split('_').map(Number);return{m,i}}).filter(x=>DATA[x.m]&&DATA[x.m].q[x.i]).sort(byNum);if(!qs.length)return;runExam('Qiyin savollar',qs,qs.length*60,false)}
+function hardTest(){lastMk=hardTest;const qs=hardList().slice(0,30).map(k=>{const[m,i]=k.split('_').map(Number);return{m,i}}).filter(x=>DATA[x.m]&&DATA[x.m].q[x.i]).sort(byNum);if(!qs.length)return;runExam("Ko'p xato qilinganlar",qs,qs.length*60,false)}
 function wrongTest(){lastMk=wrongTest;const qs=Object.keys(st.wrong).map(k=>{const[m,i]=k.split('_').map(Number);return{m,i}}).filter(x=>DATA[x.m]&&DATA[x.m].q[x.i]).sort(byNum);if(!qs.length)return;runExam('Xatolarim ustida ishlash',qs,qs.length*60,false)}
 
 /* ---------- EXAM ---------- */
@@ -438,7 +458,7 @@ function renderResult(h,tips){
   html+=`<h2>Javoblar tahlili</h2><div class="grid">${items.map((x,j)=>`<button class="${x.ok?'g':'r'}" onclick="rvShow(0);document.getElementById('rv${j}').scrollIntoView({behavior:'smooth',block:'center'})">${j+1}</button>`).join('')}</div>
    <div class="seg" id="rvseg"><button class="${bad?'on':''}" onclick="rvShow(1)">Faqat xatolar (${bad})</button><button class="${bad?'':'on'}" onclick="rvShow(0)">Hammasi (${items.length})</button></div>
    <div id="rv">${bad?'':`<p class="mut">Barcha javoblar to'g'ri. Barakalla!</p>`}${items.map((x,j)=>`<div class="rv-i ${x.ok?'okk'+(bad?' hidden':''):''}" id="rv${j}">
-     ${x.ok?`<span class="st ok">${ic('check')} ${j+1}. To'g'ri</span>`:x.a==null?`<span class="st nt">${j+1}. Javob berilmagan</span>`:`<span class="st no">${ic('x')} ${j+1}. Xato</span>`}
+     <div class="rv-h">${x.ok?`<span class="st ok">${ic('check')} ${j+1}. To'g'ri</span>`:x.a==null?`<span class="st nt">${j+1}. Javob berilmagan</span>`:`<span class="st no">${ic('x')} ${j+1}. Xato</span>`}${flagBtn(x.m,x.i,`rvFlag(this,${x.m},${x.i})`)}</div>
      <div class="q">${esc(x.q.q)}</div>
      ${x.a!=null&&!x.ok?`<div class="ans no">${ic('x')}<span>Sizning javobingiz: ${esc(x.q.o[x.a])}</span></div>`:''}
      <div class="ans ok">${ic('check')}<span>To'g'ri javob: ${esc(x.q.o[x.q.c])}</span></div>
@@ -451,20 +471,42 @@ function reviewHist(idx){const h=st.hist[idx];if(!h)return;stopTimer();renderRes
 
 /* ---------- LEARN ---------- */
 function learnMenu(){
-  stopTimer();foot();setHead('Test yodlash',home);
-  app.innerHTML=`<p class="mut">Fanni tanlang. <b style="color:var(--ink)">Ro'yxat</b>da barcha savollar chiqadi: javobni belgilaysiz va to'g'ri yoki xato ekanini ko'rasiz. <b style="color:var(--ink)">Kartochka</b>da savol chiqadi, bosganda javob ochiladi, bilmaganlaringiz qayta chiqadi.</p>
-  <div class="list" style="margin-top:16px">${DATA.map((m,i)=>{const l=m.q.filter((_,j)=>st.learned[key(i,j)]).length;return`<div class="mrow">
+  stopTimer();foot();setHead('Test yodlash',home);const F=flagList().length;
+  app.innerHTML=`<p class="mut">Fanni tanlang. <b style="color:var(--ink)">Ro'yxat</b>da barcha savollar chiqadi: javobni belgilaysiz va to'g'ri yoki xato ekanini ko'rasiz. <b style="color:var(--ink)">Kartochka</b>da savol chiqadi, bosganda javob ochiladi. Yodlay olmayotgan savollarni <b style="color:var(--ink)">Qiyin deb belgilash</b> tugmasi bilan belgilab boring.</p>
+  <button class="flagpanel" onclick="flagHome()"><span class="act-ic">${ic('flag')}</span><span class="tx"><b>Qiyin savollarim</b><span>${F?`${F} ta savol belgilangan. Faqat shularni yodlang va ulardan test ishlang.`:`Savollarni o'qib chiqayotganda yodlay olmayotganlaringizni belgilang, ular shu yerga yig'iladi.`}</span></span>${F?`<span class="cnt w">${F}</span>`:''}${ic('chev')}</button>
+  <div class="list" style="margin-top:16px">${DATA.map((m,i)=>{const l=m.q.filter((_,j)=>st.learned[key(i,j)]).length,f=m.q.filter((_,j)=>st.flag[key(i,j)]).length;return`<div class="mrow">
     <div class="mnum">${i+1}</div>
-    <div class="mtx"><b>${esc(m.t)}</b><span>${l} / ${m.q.length} yodlangan</span><div class="bar"><i style="width:${l/m.q.length*100}%"></i></div></div>
-    <div class="mact"><button class="btn" onclick="learn(${i})">${ic('list')} Ro'yxat</button><button class="btn p" onclick="fcStart(${i})">${ic('cards')} Kartochka</button></div></div>`}).join('')}</div>`;
+    <div class="mtx"><b>${esc(m.t)}</b><span>${l} / ${m.q.length} yodlangan${f?` · ${f} ta qiyin`:''}</span><div class="bar"><i style="width:${l/m.q.length*100}%"></i></div></div>
+    <div class="mact"><button class="btn" onclick="learn(${i})">${ic('list')} Ro'yxat</button><button class="btn p" onclick="fcStart(${i})">${ic('cards')} Kartochka</button>${f?`<button class="btn flagbtn" onclick="learn(${i},'flag')">${ic('flag')} Qiyinlar (${f})</button>`:''}</div></div>`}).join('')}</div>`;
   top0();
 }
+function flagList(){return Object.keys(st.flag).filter(k=>st.flag[k]).map(k=>{const[m,i]=k.split('_').map(Number);return{m,i}}).filter(x=>DATA[x.m]&&DATA[x.m].q[x.i]).sort(byNum)}
+function flagBtn(m,i,on){const f=!!st.flag[key(m,i)];return`<button class="flagb ${f?'on':''}" aria-pressed="${f}" onclick="${on}">${ic('flag')}<span>${f?'Qiyin':'Qiyin deb belgilash'}</span></button>`}
+function togFlag(m,i){const k=key(m,i);if(st.flag[k])delete st.flag[k];else st.flag[k]=1;save()}
+function rvFlag(b,m,i){togFlag(m,i);b.outerHTML=flagBtn(m,i,`rvFlag(this,${m},${i})`)}
+function flagTest(){lastMk=flagTest;const qs=flagList();if(!qs.length)return flagHome();runExam(`Qiyin savollarim, ${qs.length} ta`,qs,qs.length*60,new Set(qs.map(x=>x.m)).size>1)}
+function flagHome(){
+  stopTimer();foot();setHead('Qiyin savollarim',learnMenu);
+  const fl=flagList(),n=fl.length,errs=Object.keys(st.wrong).filter(k=>!st.flag[k]&&(()=>{const[m,i]=k.split('_').map(Number);return DATA[m]&&DATA[m].q[i]})()).length;
+  const by={};fl.forEach(x=>by[x.m]=(by[x.m]||0)+1);
+  app.innerHTML=(n?`<p class="mut">Siz belgilagan ${n} ta qiyin savol. Ularni kartochka bilan yodlang, keyin test ishlab tekshiring. Savolni yodlab olgach, belgisini olib tashlang.</p>
+   <div class="acts">
+     <button class="act act-flag" onclick="fcFlag()"><span class="act-ic">${ic('cards')}</span><span class="act-tx"><b>Kartochka bilan yodlash</b><span>${n} ta savol. Bilmaganlaringiz qayta-qayta chiqadi.</span></span>${ic('chev')}</button>
+     <button class="act act-test" onclick="flagTest()"><span class="act-ic">${ic('test')}</span><span class="act-tx"><b>Test ishlash</b><span>${n} savol, ${n} daqiqa. Savollar fanma-fan chiqadi.</span></span>${ic('chev')}</button></div>
+   <h2>Fanlar bo'yicha</h2><div class="list">${Object.keys(by).map(m=>`<button class="row-i" onclick="learn(${m},'flag')"><span class="mnum" style="width:34px;height:34px;font-size:13px">${+m+1}</span><span class="tx"><b>${esc(DATA[m].t)}</b><span>${by[m]} ta qiyin savol</span></span>${ic('chev')}</button>`).join('')}</div>`
+   :`<div class="empty"><div class="big">${ic('flag')}</div><h2 style="margin-top:8px">Hozircha belgilangan savol yo'q</h2><p class="mut" style="max-width:52ch;margin:0 auto">Test yodlash bo'limida fanni ochib savollarni o'qing. Yodlay olmayotgan savolda <b>Qiyin deb belgilash</b> tugmasini bosing, u shu yerga qo'shiladi.</p></div>`)+
+   (errs?`<div class="list" style="margin-top:14px"><button class="row-i" onclick="flagAddErrors()"><span class="ic-warn" style="width:42px;height:42px">${ic('repeat')}</span><span class="tx"><b>Xato qilganlarimni ham qo'shish</b><span>Testlarda va yodlashda xato qilgan yana ${errs} ta savolingiz bor</span></span>${ic('chev')}</button></div>`:'')+
+   (n?`<button class="btn ghost" style="margin-top:14px" onclick="flagClear()">Barcha belgilarni olib tashlash</button>`:'');
+  top0();
+}
+function flagAddErrors(){Object.keys(st.wrong).forEach(k=>{const[m,i]=k.split('_').map(Number);if(DATA[m]&&DATA[m].q[i])st.flag[k]=1});save();flagHome()}
+async function flagClear(){if(await dlg('Barcha qiyin belgilarini olib tashlaysizmi?','Ha, olib tashlash',"Yo'q")){st.flag={};save();flagHome()}}
 let ln;
-function learn(mi){
-  ln={mi,f:'all',s:'',shown:{},ord:DATA[mi].q.map((_,i)=>optOrder(mi,i))};save();
+function learn(mi,f){
+  mi=+mi;ln={mi,f:f||'all',s:'',shown:{},ord:DATA[mi].q.map((_,i)=>optOrder(mi,i))};save();
   setHead(DATA[mi].s,learnMenu);
   app.innerHTML=`<p class="mut">${esc(DATA[mi].t)}</p>
-   <div class="seg" id="lf" style="margin-top:14px;flex-wrap:wrap"><button class="on" data-f="all">Hammasi</button><button data-f="new">Yodlanmagan</button><button data-f="wrong">Xato qilinganlar</button><button data-f="done">Yodlangan</button></div>
+   <div class="seg" id="lf" style="margin-top:14px;flex-wrap:wrap">${[['all','Hammasi'],['new','Yodlanmagan'],['flag','Qiyin'],['wrong','Xato qilinganlar'],['done','Yodlangan']].map(([k,t])=>`<button class="${ln.f===k?'on':''}" data-f="${k}">${t}</button>`).join('')}</div>
    <div class="toolbar"><label class="search">${ic('search')}<input type="search" id="ls" placeholder="Savol yoki javobdan qidirish"></label>
    <label class="check"><input type="checkbox" id="lshow"> Javoblarni darhol ko'rsatish</label></div>
    <div id="lst"></div>`;
@@ -477,19 +519,20 @@ function learn(mi){
 function renderL(){
   const m=DATA[ln.mi],show=$('#lshow').checked;
   const list=m.q.map((q,i)=>({q,i})).filter(({q,i})=>{const k=key(ln.mi,i);
-    if(ln.f==='new'&&st.learned[k])return false;if(ln.f==='wrong'&&!st.wrong[k])return false;if(ln.f==='done'&&!st.learned[k])return false;
+    if(ln.f==='new'&&st.learned[k])return false;if(ln.f==='wrong'&&!st.wrong[k])return false;if(ln.f==='done'&&!st.learned[k])return false;if(ln.f==='flag'&&!st.flag[k])return false;
     if(ln.s&&!(q.q+' '+q.o.join(' ')).toLowerCase().includes(ln.s))return false;return true});
-  $('#lst').innerHTML=list.length?list.map(({i})=>lcard(i,show)).join(''):`<div class="empty" style="margin-top:12px"><p class="mut">Bu bo'limda hozircha savol yo'q.</p></div>`;
+  $('#lst').innerHTML=list.length?list.map(({i})=>lcard(i,show)).join(''):`<div class="empty" style="margin-top:12px"><p class="mut">${ln.f==='flag'?"Bu fanda qiyin deb belgilangan savol yo'q. Savoldagi «Qiyin deb belgilash» tugmasini bosing.":"Bu bo'limda hozircha savol yo'q."}</p></div>`;
 }
 function lcard(i,show){
   const q=DATA[ln.mi].q[i],k=key(ln.mi,i),sel=ln.shown[i],ansd=sel!==undefined||show;
-  return`<div class="lc" id="lc${i}"><div class="lc-h"><span class="qno">${i+1}-savol</span>${st.learned[k]?`<span class="done-badge">${ic('check')} Yodlangan</span>`:''}</div>
+  return`<div class="lc ${st.flag[k]?'flagged':''}" id="lc${i}"><div class="lc-h"><span class="qno">${i+1}-savol</span><span class="lc-badges">${st.learned[k]?`<span class="done-badge">${ic('check')} Yodlangan</span>`:''}${flagBtn(ln.mi,i,`lflag(${i})`)}</span></div>
    <div class="q">${esc(q.q)}</div>
    <div class="opts">${ln.ord[i].map((j,p)=>{let c='';if(ansd){if(j===q.c)c='ok';else if(j===sel)c='no'}return`<button class="opt ${c}" ${ansd?'disabled':''} onclick="lans(${i},${j})"><span class="l">${L[p]}</span><span class="ot">${esc(q.o[j])}</span></button>`}).join('')}</div>
    ${sel!==undefined?(sel===q.c?`<div class="verdict ok">${ic('check')} To'g'ri</div>`:`<div class="verdict no">${ic('x')} Xato</div>`):''}
    ${ansd?`<div class="lc-act"><button class="btn" onclick="lreset(${i})">${ic('undo')} Qayta belgilash</button><button class="btn ${st.learned[k]?'learned':'p'}" onclick="ltog(${i})">${st.learned[k]?ic('check')+' Yodlangan':'Yodladim'}</button></div>`:''}</div>`;
 }
 function lans(i,j){ln.shown[i]=j;const k=key(ln.mi,i);if(j===DATA[ln.mi].q[i].c)delete st.wrong[k];else{miss(k);delete st.learned[k]}save();$('#lc'+i).outerHTML=lcard(i,$('#lshow').checked)}
+function lflag(i){togFlag(ln.mi,i);$('#lc'+i).outerHTML=lcard(i,$('#lshow').checked)}
 function lreset(i){delete ln.shown[i];ln.ord[i]=optOrder(ln.mi,i);save();$('#lc'+i).outerHTML=lcard(i,false)}
 function ltog(i){const k=key(ln.mi,i);if(st.learned[k])delete st.learned[k];else st.learned[k]=1;save();$('#lc'+i).outerHTML=lcard(i,$('#lshow').checked)}
 
@@ -499,29 +542,33 @@ function fcStart(mi,all){
   const m=DATA[mi];let idx=m.q.map((_,i)=>i);
   const nl=idx.filter(i=>!st.learned[key(mi,i)]);
   if(!all&&nl.length)idx=nl;
-  idx=shuf(idx);const w=idx.filter(i=>st.wrong[key(mi,i)]);idx=w.concat(idx.filter(i=>!st.wrong[key(mi,i)]));
-  fc={ord:{},mi,deck:idx,total:idx.length,known:0,flip:false,miss:{}};
-  setHead('Kartochka: '+m.s,learnMenu);fcShow();
+  fcRun(idx.map(i=>({m:mi,i})),'Kartochka: '+m.s,{again:()=>fcStart(mi,true),test:()=>startModule(mi,10),testLbl:'10 ta test'});
+}
+function fcFlag(){const items=flagList();if(!items.length)return flagHome();fcRun(items,'Kartochka: qiyin savollar',{again:fcFlag,test:flagTest,testLbl:'Test ishlash',back:flagHome,multi:true})}
+function fcRun(items,title,o){
+  let d=shuf(items);const w=d.filter(x=>st.wrong[key(x.m,x.i)]);d=w.concat(d.filter(x=>!st.wrong[key(x.m,x.i)]));
+  fc={ord:{},deck:d,total:d.length,known:0,flip:false,miss:{},o};
+  setHead(title,o.back||learnMenu);fcShow();
 }
 function fcShow(){
-  const m=DATA[fc.mi];
   if(!fc.deck.length){const bad=Object.keys(fc.miss).length;
     app.innerHTML=`<div class="empty"><div class="big">${fc.total}</div><h2 style="margin-top:6px">Kartochkalar tugadi</h2><p class="mut">${bad?bad+" tasini birinchi urinishda bilmadingiz, ular «Xato qilinganlar»ga qo'shildi.":'Hammasini birinchi urinishda bildingiz.'}</p></div>`;
-    foot(`<button class="btn" onclick="learnMenu()">Fanlar</button><button class="btn" onclick="fcStart(${fc.mi},true)">${ic('repeat')} Hammasini qayta</button><button class="btn p" onclick="startModule(${fc.mi},10)">10 ta test</button>`);top0();return}
-  const i=fc.deck[0],q=m.q[i],done=fc.total-fc.deck.length;
+    foot(`<button class="btn" onclick="(fc.o.back||learnMenu)()">Orqaga</button><button class="btn" onclick="fc.o.again()">${ic('repeat')} Hammasini qayta</button><button class="btn p" onclick="fc.o.test()">${esc(fc.o.testLbl)}</button>`);top0();return}
+  const x=fc.deck[0],q=DATA[x.m].q[x.i],k=key(x.m,x.i),done=fc.total-fc.deck.length;
   app.innerHTML=`<div class="qhead"><span class="qn">Qoldi <b>${fc.deck.length}</b></span><span class="mut sm">Bildim: ${fc.known} / ${fc.total}</span></div>
    <div class="prog"><i style="width:${done/fc.total*100}%;background:var(--acc)"></i></div>
-   <div class="fc" id="fcc" onclick="fcFlip()"><span class="qno">${i+1}-savol${fc.miss[i]?' · takror':''}</span><div class="q">${esc(q.q)}</div>
+   <div class="fc" id="fcc" onclick="fcFlip()"><div class="lc-h"><span class="qno">${fc.o.multi?esc(DATA[x.m].s)+' · ':''}${x.i+1}-savol${fc.miss[k]?' · takror':''}</span>${flagBtn(x.m,x.i,'event.stopPropagation();fcFlagT()')}</div><div class="q">${esc(q.q)}</div>
     ${fc.flip?`<div class="answer">${ic('check')}<span>${esc(q.o[q.c])}</span></div>`:`<div class="hintline">Javobni o'ylab ko'ring, keyin kartochkani bosing</div>`}</div>
-   ${fc.flip?`<details class="map"><summary>${ic('chev')} Barcha variantlar</summary><div class="opts" style="padding-bottom:14px">${(fc.ord[i]||(fc.ord[i]=optOrder(fc.mi,i))).map((j,p)=>`<div class="opt ${j===q.c?'ok':''}" style="cursor:default"><span class="l">${L[p]}</span><span class="ot">${esc(q.o[j])}</span></div>`).join('')}</div></details>`:''}`;
+   ${fc.flip?`<details class="map"><summary>${ic('chev')} Barcha variantlar</summary><div class="opts" style="padding-bottom:14px">${(fc.ord[k]||(fc.ord[k]=optOrder(x.m,x.i))).map((j,p)=>`<div class="opt ${j===q.c?'ok':''}" style="cursor:default"><span class="l">${L[p]}</span><span class="ot">${esc(q.o[j])}</span></div>`).join('')}</div></details>`:''}`;
   foot(fc.flip?`<button class="btn danger" onclick="fcAns(0)">${ic('x')} Bilmasdim</button><button class="btn p" onclick="fcAns(1)">${ic('check')} Bilardim</button>`
               :`<button class="btn p" onclick="fcFlip()">Javobni ko'rish</button>`);
 }
+function fcFlagT(){const x=fc.deck[0];togFlag(x.m,x.i);fcShow()}
 function fcFlip(){if(fc.flip)return;fc.flip=true;fcShow()}
 function fcAns(ok){
-  const i=fc.deck.shift(),k=key(fc.mi,i);fc.flip=false;
-  if(ok){fc.known++;st.learned[k]=1;if(!fc.miss[i])delete st.wrong[k]}
-  else{fc.miss[i]=1;miss(k);delete st.learned[k];fc.deck.splice(Math.min(3,fc.deck.length),0,i)}
+  const x=fc.deck.shift(),k=key(x.m,x.i);fc.flip=false;
+  if(ok){fc.known++;st.learned[k]=1;if(!fc.miss[k])delete st.wrong[k]}
+  else{fc.miss[k]=1;miss(k);delete st.learned[k];fc.deck.splice(Math.min(3,fc.deck.length),0,x)}
   save();fcShow();top0();
 }
 document.addEventListener('keydown',e=>{if(!fc||!document.getElementById('fcc'))return;if(e.code==='Space'){e.preventDefault();fcFlip()}else if(fc.flip&&e.key==='ArrowRight')fcAns(1);else if(fc.flip&&e.key==='ArrowLeft')fcAns(0)});
