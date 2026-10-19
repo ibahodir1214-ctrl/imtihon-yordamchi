@@ -1,6 +1,6 @@
 # Malaka oshirish testlari
 
-Malaka oshirish kursining 8 ta moduli bo'yicha 1025 ta test savolini yodlash va ishlash uchun ilova.
+Malaka oshirish kursining 1895 ta test savolini (8 ta modul va 6 ta qo'shimcha fan) yodlash va ishlash uchun ilova.
 
 **Ilovani ochish:** `index.html` faylini istalgan brauzerda oching. Internet kerak emas, kompyuterda ham, telefonda ham ishlaydi.
 
