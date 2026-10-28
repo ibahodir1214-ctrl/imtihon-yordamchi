@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>VPN Germaniya</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      width: 360px;
+      margin: 0;
+      padding: 12px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 8px;
+    }
+    .title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: #064e3b;
+      color: #34d399;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid #10b981;
+    }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 6px 8px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+    }
+    .tab-btn.active {
+      background: #38bdf8;
+      color: #0f172a;
+      border-color: #38bdf8;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .keys-box {
+      background: #1e293b;
+      border-radius: 8px;
+      padding: 9px;
+      margin-bottom: 10px;
+      border: 1px solid #334155;
+    }
+    .key-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      font-size: 11px;
+    }
+    .key-row:last-child {
+      margin-bottom: 0;
+    }
+    .key-tag {
+      background: #0f172a;
+      border: 1px solid #475569;
+      color: #10b981;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .btn {
+      flex: 1;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .btn-primary {
+      background: #10b981;
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background: #059669;
+    }
+    .btn-secondary {
+      background: #334155;
+      color: #f8fafc;
+    }
+    .btn-secondary:hover {
+      background: #475569;
+    }
+    .btn-blue {
+      background: #0284c7;
+      color: #ffffff;
+    }
+    .btn-blue:hover {
+      background: #0369a1;
+    }
+    .search-section {
+      background: #1e293b;
+      border-radius: 8px;
+      padding: 10px;
+      border: 1px solid #334155;
+      margin-bottom: 8px;
+    }
+    .search-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .search-input {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      color: #ffffff;
+      padding: 6px 10px;
+      font-size: 11px;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: #10b981;
+    }
+    .results-box {
+      max-height: 160px;
+      overflow-y: auto;
+      margin-top: 8px;
+    }
+    .result-item {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 6px 8px;
+      margin-bottom: 5px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .result-item:hover {
+      border-color: #10b981;
+      background: #132338;
+    }
+    .result-mod {
+      font-size: 9px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+    .result-q {
+      color: #cbd5e1;
+      margin: 2px 0 4px;
+      line-height: 1.3;
+    }
+    .result-a {
+      color: #34d399;
+      font-weight: 700;
+    }
+    .empty-hint {
+      font-size: 10px;
+      color: #64748b;
+      text-align: center;
+      padding: 8px 0;
+    }
+    /* Telegram Settings Form */
+    .tg-form {
+      background: #1e293b;
+      border-radius: 8px;
+      padding: 12px;
+      border: 1px solid #334155;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .form-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .form-control {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      color: #38bdf8;
+      padding: 6px 8px;
+      font-family: Consolas, monospace;
+      font-size: 11px;
+      outline: none;
+    }
+    .form-control:focus {
+      border-color: #38bdf8;
+    }
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #f8fafc;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #e2e8f0;
+      cursor: pointer;
+    }
+    .status-msg {
+      font-size: 11px;
+      text-align: center;
+      margin-top: 8px;
+      padding: 5px;
+      border-radius: 4px;
+      display: none;
+    }
+    .status-msg.success {
+      display: block;
+      background: #064e3b;
+      color: #34d399;
+      border: 1px solid #10b981;
+    }
+    .status-msg.error {
+      display: block;
+      background: #450a0a;
+      color: #f87171;
+      border: 1px solid #ef4444;
+    }
+    .guide-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 8px;
+      margin-top: 10px;
+      font-size: 10px;
+      line-height: 1.4;
+      color: #94a3b8;
+    }
+    .guide-box b {
+      color: #38bdf8;
+    }
+    .footer {
+      font-size: 10px;
+      color: #64748b;
+      text-align: center;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title">🇩🇪 VPN Germaniya</div>
+    <div class="badge" id="badge-count">🟢 Ulandi</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab-btn active" data-tab="tab-main">⚡ Test Yechish</div>
+    <div class="tab-btn" data-tab="tab-tg">📱 Telegram Bot</div>
+    <div class="tab-btn" data-tab="tab-search">🔎 Qidirish</div>
+  </div>
+
+  <!-- TAB 1: ASOSIY -->
+  <div id="tab-main" class="tab-content active">
+    <div class="keys-box">
+      <div class="key-row">
+        <span class="key-tag">Alt + Z</span>
+        <span>Javobni aniqlab, <b>Telegramga</b> yuborish</span>
+      </div>
+      <div class="key-row">
+        <span class="key-tag" style="color: #f87171;">Alt + X</span>
+        <span>Ekrandagi raqamni yashirish</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button id="btn-solve" class="btn btn-primary">⚡ Tahlil qilish (Alt+Z)</button>
+      <button id="btn-hide" class="btn btn-secondary">❌ Yashirish (Alt+X)</button>
+    </div>
+
+    <div id="tg-indicator-box" style="background:#1e293b; padding:8px 10px; border-radius:6px; font-size:11px; border:1px solid #334155; display:flex; justify-content:space-between; align-items:center;">
+      <span style="color:#94a3b8;">Telegram holati:</span>
+      <span id="tg-status-badge" style="font-weight:700; color:#f59e0b;">Tekshirilmoqda...</span>
+    </div>
+  </div>
+
+  <!-- TAB 2: TELEGRAM SOZLAMALARI -->
+  <div id="tab-tg" class="tab-content">
+    <div class="tg-form">
+      <label class="checkbox-row">
+        <input type="checkbox" id="chk-tg-enabled" checked />
+        <span>Telegramga to'g'ri variantni yuborish faol</span>
+      </label>
+
+      <div class="form-group">
+        <label class="form-label" for="inp-tg-token">Bot Token (@BotFather):</label>
+        <input type="password" id="inp-tg-token" class="form-control" placeholder="123456789:ABCdef..." />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="inp-tg-chat">Sizning Chat ID (@userinfobot):</label>
+        <input type="text" id="inp-tg-chat" class="form-control" placeholder="12345678" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Xabar yuborish turi:</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="msg-mode" value="letter" checked />
+            <span><b>Faqat harf (A, B, C, D yoki X)</b></span>
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="msg-mode" value="short" />
+            <span>Harf va javob: <b>B: Javob</b></span>
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="msg-mode" value="full" />
+            <span>To'liq ma'lumot (Savol + Variant + Javob)</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button id="btn-save-tg" class="btn btn-primary">💾 Saqlash</button>
+        <button id="btn-test-tg" class="btn btn-blue">📲 Test xabar</button>
+      </div>
+
+      <div id="tg-msg-feedback" class="status-msg"></div>
+
+      <div class="guide-box">
+        💡 <b>Qanday sozlanadi?</b><br>
+        1. Telegramda <b>@BotFather</b> ga <code>/newbot</code> deb yozib bot oching va <b>Token</b> oling.<br>
+        2. <b>@userinfobot</b> ga start bosing va <b>Id</b> raqamingizni oling.<br>
+        3. O'z botingizga kiring va bir marta <b>/start</b> bosing.<br>
+        4. Token va Id ni yuqoriga yozib <b>"Saqlash"</b> va <b>"Test xabar"</b> bosing!
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: QIDIRUV -->
+  <div id="tab-search" class="tab-content">
+    <div class="search-section">
+      <div class="search-title">
+        <span>🔎 BAZADAN TEZKOR QIDIRISH</span>
+        <span id="results-count" style="color: #10b981;"></span>
+      </div>
+      <input type="text" id="search-input" class="search-input" placeholder="Savol yoki kalit so'zni yozing..." />
+      <div id="results-box" class="results-box">
+        <div class="empty-hint">Savol yoki kalit so'z kiriting...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Bazada 16 ta fan bo'yicha 1,881 ta test mavjud</div>
+
+  <script src="db.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

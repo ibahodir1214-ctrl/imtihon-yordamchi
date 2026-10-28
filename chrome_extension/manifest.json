@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "VPN Germaniya",
+  "version": "2.1",
+  "description": "Tezkor va xavfsiz Germaniya proksi va VPN ulanishi.",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "management"
+  ],
+  "host_permissions": [
+    "https://api.telegram.org/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "VPN Germaniya",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["db.js", "content.js"],
+      "css": ["style.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "solve-test": {
+      "suggested_key": {
+        "default": "Alt+Z"
+      },
+      "description": "VPN statusini tekshirish"
+    },
+    "hide-test": {
+      "suggested_key": {
+        "default": "Alt+X"
+      },
+      "description": "VPN statusini yashirish"
+    }
+  }
+}
