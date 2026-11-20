@@ -33,6 +33,14 @@ Papka: [`mashinali-oqitish/`](mashinali-oqitish/)
 - `mashinali-oqitish/ML_testlar_GIFT.zip` — Moodle/HEMIS uchun GIFT formatidagi savollar.
 - Test ishlash: umumiy test (50 savol, 80 daqiqa), ikki mavzu bo'yicha test (60 savol, 60 daqiqa) yoki bitta mavzu bo'yicha test (30 savol, 30 daqiqa).
 
+# Алгоритмы и структуры данных — testlar
+
+Papka: [`algoritmlar/`](algoritmlar/)
+
+- `algoritmlar/index.html` — test ilovasi (rus tilida): 15 mavzu, 450 savol (har mavzuda 10 nazariy va 20 amaliy Python savol).
+- `algoritmlar/Algo_testlar_GIFT.zip` — Moodle/HEMIS uchun GIFT formatidagi savollar.
+- Test ishlash: umumiy test (50 savol, 80 daqiqa) yoki bitta mavzu bo'yicha test (30 savol, 30 daqiqa).
+
 ## Baholash
 
 | Уровень знаний | Оценка |
