@@ -37,9 +37,9 @@ Papka: [`mashinali-oqitish/`](mashinali-oqitish/)
 
 Papka: [`algoritmlar/`](algoritmlar/)
 
-- `algoritmlar/index.html` — test ilovasi (rus tilida): 15 mavzu, 450 savol (har mavzuda 10 nazariy va 20 amaliy Python savol).
+- `algoritmlar/index.html` — test ilovasi (rus tilida): 15 mavzu, 600 savol (har mavzuda 10 nazariy, 20 amaliy Python savol va 10 «tushib qolgan so'z yoki operatorni topish»).
 - `algoritmlar/Algo_testlar_GIFT.zip` — Moodle/HEMIS uchun GIFT formatidagi savollar.
-- Test ishlash: umumiy test (50 savol, 80 daqiqa) yoki bitta mavzu bo'yicha test (30 savol, 30 daqiqa).
+- Test ishlash: umumiy test (50 savol, 80 daqiqa) yoki bitta mavzu bo'yicha test (40 savol, 40 daqiqa).
 
 ## Baholash
 
